@@ -3,15 +3,7 @@ import random
 import math
 pygame.init()
 
-# screenWidth = 1000
-# screenLength = 800
-# color = (250,250,250)
-# screen = pygame.display.set_mode((screenWidth, screenLength))
 
-
-# run = True
-
-# Constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 HEX_SIZE = 50
@@ -69,31 +61,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# while run:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             run = False
-#     screen.fill(color)
-#     pygame.display.flip()
-# pygame.quit()
-#
-# class Board:
-#
-#     def random_board(self):
-#         tiles = ['desert', 'wood', 'wood', 'wood', 'wood', 'sheep', 'sheep', 'sheep', 'sheep', 'wheat', 'wheat', 'wheat', 'wheat', 'brick', 'brick', 'brick', 'ore', 'ore', 'ore']
-#         probs = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12]
-#         board = [[], [], [], []]
-#         row_lengths = [3, 4, 5, 4, 3]
-#         for i in range(5):
-#             while len(board[i]) < row_lengths[i]:
-#                 tile = random.choice(tiles)
-#                 board[i].append(tile)
-#                 tiles.remove(tile)
-#         for i in range(len(board)):
-#             for j in range(len(board[i])):
-#                 if board[i][j] != 'desert':
-#                     number = random.choice(probs)
-#                     board[i][j] += f' {number}'
-#                     probs.remove(number)
 
