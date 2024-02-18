@@ -7,7 +7,7 @@ class Player:
     def __init__(self, name):
         self.__wood = 0
         self.__brick = 0
-        self.__wool = 0
+        self.__sheep = 0
         self.__wheat = 0
         self.__ore = 0
         self.__settlements = 0
@@ -95,15 +95,15 @@ class Player:
         self.__cards += 1
 
     @property
-    def wool(self) -> int:
-        return self.__wool
+    def sheep(self) -> int:
+        return self.__sheep
 
-    @wool.setter
-    def wool(self, num: int):
-        self.__wool = num
+    @sheep.setter
+    def sheep(self, num: int):
+        self.__sheep = num
 
-    def collect_wool(self, num: int):
-        self.__wool += 1
+    def collect_sheep(self, num: int):
+        self.__sheep += 1
         self.__cards += 1
 
     @property
