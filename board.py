@@ -1,11 +1,11 @@
 import pygame
 import random
 import math
+
 pygame.init()
 
-
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1250
+SCREEN_HEIGHT = 750
 HEX_SIZE = 50
 HEX_WIDTH = math.sqrt(3) * HEX_SIZE
 HEX_HEIGHT = 1.5 * HEX_SIZE
@@ -15,15 +15,17 @@ FONT_COLOR = (0, 0, 0)
 FONT_SIZE = 36
 FONT_STYLE = 'Arial'
 START_TEXT = "Settlers of Catan \n\n  Press Space to Start\n\n Bekah Doody \n Drew Baine \n Jason Miranda"
-
+NUMBERS = ['2', '3', '3', '4', '4', '5', '5', '6', '6', '8', '8', '9', '9', '10', '10', '11', '11', '12']
 COLOR_QUANTITIES = {
-    (255, 0, 0): 3, #red -> bricks
-    (0, 255, 0): 4, #green -> sheep
-    (139, 69, 19): 4, #brown -> wood
-    (176, 196, 222):3, #blue-gray -> mountains
-    (255, 255, 0): 4, #yellow -> wheat
-    (229, 201, 159): 1, #white -desert
+    (255, 0, 0): 3,  # red -> bricks
+    (0, 255, 0): 4,  # green -> sheep
+    (139, 69, 19): 4,  # brown -> wood
+    (176, 196, 222): 3,  # blue-gray -> mountains
+    (255, 255, 0): 4,  # yellow -> wheat
+    (229, 201, 159): 1,  # tan -desert
 }
+
+
 # Function to draw a hexagon
 def generate_hexagon_colors():
     hexagon_colors = []
@@ -32,6 +34,11 @@ def generate_hexagon_colors():
         hexagon_colors.extend([color] * quantity)  # Add each color to the list the specified number of times
     random.shuffle(hexagon_colors)  # Shuffle the list of colors
     return hexagon_colors
+
+
+def generate_hexagon_numbers():
+    return random.sample(NUMBERS, 18)
+
 
 def draw_hexagon(surface, x, y, color):
     points = []
@@ -43,13 +50,23 @@ def draw_hexagon(surface, x, y, color):
     pygame.draw.polygon(surface, (0, 0, 0), points, 5)  # Draw black border with a line width of 4
     pygame.draw.polygon(surface, color, points)
 
-def draw_text(surface, text, font, color, x, y):
-    lines = text.split('\n')  # Split text into lines
-    for i, line in enumerate(lines):
+
+def draw_text(surface, text, font, color, x, y, align="center"):
+    lines = text.split('\n')  # Split text by newline character
+    y_offset = 0  # Initialize y offset for multiline text
+    for line in lines:
         text_surface = font.render(line, True, color)
         text_rect = text_surface.get_rect()
-        text_rect.center = (x, y + i * (FONT_SIZE + 5))  # Adjust vertical position for each line
+        if align == "center":
+            text_rect.center = (x, y + y_offset)
+        elif align == "left":
+            text_rect.left = x  # Adjust the left edge of the rectangle
+            text_rect.centery = y + y_offset  # Center the text vertically at the specified y-coordinate
+        elif align == "right":
+            text_rect.right = x  # Adjust the right edge of the rectangle
+            text_rect.centery = y + y_offset  # Center the text vertically at the specified y-coordinate
         surface.blit(text_surface, text_rect)
+        y_offset += text_rect.height  # Update y offset for the next line
 
 
 def start_screen(screen):
@@ -65,8 +82,30 @@ def start_screen(screen):
                     running = False
 
         screen.fill(BACKGROUND_COLOR)
-        draw_text(screen, START_TEXT, font, FONT_COLOR, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+        draw_text(screen, START_TEXT, font, FONT_COLOR, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, align='center')
         pygame.display.flip()
+
+
+# Function to roll a single die
+def roll_die():
+    return random.randint(1, 6)
+
+
+# Function to roll two dice and return the results
+def roll_dice():
+    return roll_die(), roll_die()
+
+
+# Function to draw dice with specified values
+def draw_dice(surface, x, y, value):
+    dice_font = pygame.font.SysFont(FONT_STYLE, FONT_SIZE)
+    dice_text = dice_font.render(str(value), True, FONT_COLOR)
+    dice_rect = dice_text.get_rect(center=(x, y))
+    pygame.draw.rect(surface, (255, 255, 255), dice_rect)  # White background
+    pygame.draw.rect(surface, (0, 0, 0), dice_rect, 2)  # Black border
+    surface.blit(dice_text, dice_rect)
+
+
 # Main function
 def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -74,6 +113,8 @@ def main():
 
     start_screen(screen)
     hexagon_colors = generate_hexagon_colors()
+    hexagon_numbers = generate_hexagon_numbers()
+    font = pygame.font.SysFont(FONT_STYLE, FONT_SIZE)
 
     running = True
     while running:
@@ -89,7 +130,8 @@ def main():
         start_y = (SCREEN_HEIGHT - HEX_HEIGHT * 5) / 2
 
         # Draw hexagonal grid
-        color_index=0
+        color_index = 0
+        number_index = 0
         for row in range(5):
             if row == 0 or row == 4:
                 num_hexes_in_row = 3
@@ -104,12 +146,22 @@ def main():
                 x = start_x + col * HEX_WIDTH + row_offset * HEX_WIDTH / 2
                 y = start_y + row * HEX_HEIGHT
                 draw_hexagon(screen, x, y, hexagon_colors[color_index])
+                if hexagon_colors[color_index] != (229, 201, 159):
+                    draw_text(screen, hexagon_numbers[number_index], font, FONT_COLOR, x, y, align="center")
+                    number_index += 1
                 color_index += 1
+
+                # Draw text to the right of the board
+
+            left_text = 'Press: \nR to roll \nI to buy a Road\nS to buy a Settlement\nC to buy a City\nE to end turn '
+            right_text = 'Crafting Recipes: '
+            draw_text(screen, right_text, font, FONT_COLOR, SCREEN_WIDTH - 10, 25, align='right')
+            draw_text(screen, left_text, font, FONT_COLOR, 10, 25, align='left')
 
         pygame.display.flip()
 
     pygame.quit()
 
+
 if __name__ == '__main__':
     main()
-

@@ -1,23 +1,44 @@
 import abc
-from enum import Enum
 
 
-class Card(Enum):
-    WOOD = 0
-    BRICK = 1
-    SHEEP = 2
-    WHEAT = 3
-    ORE = 4
+class ResourceCard(abc.ABC):
 
-class Resource_Cards(abc.ABC):
+    def __init__(self):
+        pass
 
-    def __init__(self, type: Card):
-        self.__type = type
+    @abc.abstractmethod
+    def __str__(self):
+        pass
+    #
+    # @property
+    # def type(self) -> str:
+    #     return self.__type
+    #
+    # @type.setter
+    # def name(self, type: Card):
+    #     self.__type = type
 
-    @property
-    def type(self) -> str:
-        return self.__type
 
-    @type.setter
-    def name(self, type: Card):
-        self.__type = type
+class BrickCard(ResourceCard):
+    def __str__(self):
+        return "Brick Card"
+
+
+class WoodCard(ResourceCard):
+    def __str__(self):
+        return "Wood Card"
+
+
+class SheepCard(ResourceCard):
+    def __str__(self):
+        return "Sheep Card"
+
+
+class WheatCard(ResourceCard):
+    def __str__(self):
+        return "Wheat Card"
+
+
+class OreCard(ResourceCard):
+    def __str__(self):
+        return "Ore Card"
