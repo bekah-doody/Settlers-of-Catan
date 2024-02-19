@@ -6,7 +6,7 @@ pygame.init()
 
 SCREEN_WIDTH = 1250
 SCREEN_HEIGHT = 750
-HEX_SIZE = 50
+HEX_SIZE = 70
 HEX_WIDTH = math.sqrt(3) * HEX_SIZE
 HEX_HEIGHT = 1.5 * HEX_SIZE
 BACKGROUND_COLOR = (0, 157, 196)
@@ -14,7 +14,7 @@ HEX_COLOR = (100, 100, 100)
 FONT_COLOR = (0, 0, 0)
 FONT_SIZE = 36
 FONT_STYLE = 'Arial'
-START_TEXT = "Settlers of Catan \n\n  Press Space to Start\n\n Bekah Doody \n Drew Baine \n Jason Miranda"
+START_TEXT = "\n\nPress Space to Start\n\nBekah Doody \nDrew Baine \nJason Miranda"
 NUMBERS = ['2', '3', '3', '4', '4', '5', '5', '6', '6', '8', '8', '9', '9', '10', '10', '11', '11', '12']
 COLOR_QUANTITIES = {
     (255, 0, 0): 3,  # red -> bricks
@@ -26,7 +26,6 @@ COLOR_QUANTITIES = {
 }
 
 
-# Function to draw a hexagon
 def generate_hexagon_colors():
     hexagon_colors = []
     colors = list(COLOR_QUANTITIES.keys())  # Get list of colors
@@ -70,7 +69,7 @@ def draw_text(surface, text, font, color, x, y, align="center"):
 
 
 def start_screen(screen):
-    font = pygame.font.SysFont(FONT_STYLE, FONT_SIZE)
+
 
     running = True
     while running:
@@ -82,7 +81,12 @@ def start_screen(screen):
                     running = False
 
         screen.fill(BACKGROUND_COLOR)
-        draw_text(screen, START_TEXT, font, FONT_COLOR, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, align='center')
+        font = pygame.font.SysFont(FONT_STYLE, 150)
+        draw_text(screen, "Settlers of Catan", font, (255, 255, 255), SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 -70, align='center')
+        font = pygame.font.SysFont(FONT_STYLE, 70)
+        draw_text(screen, "\n\nPress Space to Start", font, (255, 255, 255), SCREEN_WIDTH // 2, SCREEN_HEIGHT// 2 -100, align='center')
+        font = pygame.font.SysFont(FONT_STYLE, FONT_SIZE)
+        draw_text(screen, "\n\n\n\nBekah Doody\nDrew Baine\nJason Miranda", font, (15, 15, 100), SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, align='center')
         pygame.display.flip()
 
 
@@ -94,16 +98,6 @@ def roll_die():
 # Function to roll two dice and return the results
 def roll_dice():
     return roll_die(), roll_die()
-
-
-# Function to draw dice with specified values
-def draw_dice(surface, x, y, value):
-    dice_font = pygame.font.SysFont(FONT_STYLE, FONT_SIZE)
-    dice_text = dice_font.render(str(value), True, FONT_COLOR)
-    dice_rect = dice_text.get_rect(center=(x, y))
-    pygame.draw.rect(surface, (255, 255, 255), dice_rect)  # White background
-    pygame.draw.rect(surface, (0, 0, 0), dice_rect, 2)  # Black border
-    surface.blit(dice_text, dice_rect)
 
 
 # Main function
@@ -143,8 +137,8 @@ def main():
             if row == 2:  # Adjust offset for middle row
                 row_offset = -1
             for col in range(num_hexes_in_row):
-                x = start_x + col * HEX_WIDTH + row_offset * HEX_WIDTH / 2
-                y = start_y + row * HEX_HEIGHT
+                x = start_x +100+ col * HEX_WIDTH + row_offset * HEX_WIDTH / 2
+                y = start_y +60 + row * HEX_HEIGHT
                 draw_hexagon(screen, x, y, hexagon_colors[color_index])
                 if hexagon_colors[color_index] != (229, 201, 159):
                     draw_text(screen, hexagon_numbers[number_index], font, FONT_COLOR, x, y, align="center")
@@ -154,7 +148,7 @@ def main():
                 # Draw text to the right of the board
 
             left_text = 'Press: \nR to roll \nI to buy a Road\nS to buy a Settlement\nC to buy a City\nE to end turn '
-            right_text = 'Crafting Recipes: '
+            right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
             draw_text(screen, right_text, font, FONT_COLOR, SCREEN_WIDTH - 10, 25, align='right')
             draw_text(screen, left_text, font, FONT_COLOR, 10, 25, align='left')
 
