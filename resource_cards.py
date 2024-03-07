@@ -9,14 +9,6 @@ class ResourceCard(abc.ABC):
     @abc.abstractmethod
     def __str__(self):
         pass
-    #
-    # @property
-    # def type(self) -> str:
-    #     return self.__type
-    #
-    # @type.setter
-    # def name(self, type: Card):
-    #     self.__type = type
 
 
 class BrickCard(ResourceCard):

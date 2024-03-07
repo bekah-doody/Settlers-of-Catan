@@ -4,6 +4,7 @@ import math
 
 pygame.init()
 
+
 SCREEN_WIDTH = 1250
 SCREEN_HEIGHT = 750
 HEX_SIZE = 70
