@@ -4,7 +4,8 @@ class Player:
     """
 
     """
-    def __init__(self, name):
+    def __init__(self, name, color):
+        self.__color = color
         self.__wood = 0
         self.__brick = 0
         self.__sheep = 0
@@ -18,7 +19,14 @@ class Player:
         self.__development_cards = []
         self.name = name
         self.__turn = 0
-        self.__cards
+        self.__cards = []
+    @property
+    def color(self):
+        return self.__color
+
+    @color.setter
+    def color(self, value):
+        self.__color = value
 
     @property
     def name(self) -> str:
