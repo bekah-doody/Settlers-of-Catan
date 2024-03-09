@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+from game import *
 
 pygame.init()
 
@@ -100,15 +101,46 @@ def roll_die():
 def roll_dice():
     return roll_die(), roll_die()
 
+def draw_grid(SCREEN_WIDTH, HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers):
+
+    # Calculate starting position to center the grid
+    start_x = (SCREEN_WIDTH - HEX_WIDTH * 5) / 2
+    start_y = (SCREEN_HEIGHT - HEX_HEIGHT * 5) / 2
+    # Draw hexagonal grid
+    color_index = 0
+    number_index = 0
+    for row in range(5):
+        if row == 0 or row == 4:
+            num_hexes_in_row = 3
+        if row == 1 or row == 3:
+            num_hexes_in_row = 4
+        if row == 2:
+            num_hexes_in_row = 5
+        row_offset = abs(2 - row) // 2  # Offset for centering hexagons
+        if row == 2:  # Adjust offset for middle row
+            row_offset = -1
+        for col in range(num_hexes_in_row):
+            x = start_x + 100 + col * HEX_WIDTH + row_offset * HEX_WIDTH / 2
+            y = start_y + 60 + row * HEX_HEIGHT
+            draw_hexagon(screen, x, y, hexagon_colors[color_index])
+            if hexagon_colors[color_index] != (229, 201, 159):
+                draw_text(screen, hexagon_numbers[number_index], font, FONT_COLOR, x, y, align="center")
+                number_index += 1
+            color_index += 1
+
 
 # Main function
 def main():
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption('Catan Board')
-
-    start_screen(screen)
     hexagon_colors = generate_hexagon_colors()
     hexagon_numbers = generate_hexagon_numbers()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption('Catan Board')
+    game = Game()
+    game.generate_vertices()
+    start_x = (SCREEN_WIDTH - HEX_WIDTH * 5) / 2
+    start_y = (SCREEN_HEIGHT - HEX_HEIGHT * 5) / 2
+    start_screen(screen)
+
     font = pygame.font.SysFont(FONT_STYLE, FONT_SIZE)
 
     running = True
@@ -121,37 +153,20 @@ def main():
         screen.fill(BACKGROUND_COLOR)
 
         # Calculate starting position to center the grid
-        start_x = (SCREEN_WIDTH - HEX_WIDTH * 5) / 2
-        start_y = (SCREEN_HEIGHT - HEX_HEIGHT * 5) / 2
 
-        # Draw hexagonal grid
-        color_index = 0
-        number_index = 0
-        for row in range(5):
-            if row == 0 or row == 4:
-                num_hexes_in_row = 3
-            if row == 1 or row == 3:
-                num_hexes_in_row = 4
-            if row == 2:
-                num_hexes_in_row = 5
-            row_offset = abs(2 - row) // 2  # Offset for centering hexagons
-            if row == 2:  # Adjust offset for middle row
-                row_offset = -1
-            for col in range(num_hexes_in_row):
-                x = start_x +100+ col * HEX_WIDTH + row_offset * HEX_WIDTH / 2
-                y = start_y +60 + row * HEX_HEIGHT
-                draw_hexagon(screen, x, y, hexagon_colors[color_index])
-                if hexagon_colors[color_index] != (229, 201, 159):
-                    draw_text(screen, hexagon_numbers[number_index], font, FONT_COLOR, x, y, align="center")
-                    number_index += 1
-                color_index += 1
+
+        draw_grid(SCREEN_WIDTH, HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers)
+
 
                 # Draw text to the right of the board
 
-            left_text = 'Press: \nR to roll \nI to buy a Road\nS to buy a Settlement\nC to buy a City\nE to end turn '
-            right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
-            draw_text(screen, right_text, font, FONT_COLOR, SCREEN_WIDTH - 10, 25, align='right')
-            draw_text(screen, left_text, font, FONT_COLOR, 10, 25, align='left')
+        left_text = 'Press: \nR to roll \nI to buy a Road\nS to buy a Settlement\nC to buy a City\nE to end turn '
+        right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
+        draw_text(screen, right_text, font, FONT_COLOR, SCREEN_WIDTH - 10, 25, align='right')
+        draw_text(screen, left_text, font, FONT_COLOR, 10, 25, align='left')
+
+        game.draw_vertices(screen)
+
 
         pygame.display.flip()
 
