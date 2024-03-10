@@ -6,8 +6,9 @@ class Game:
     Holds information on the game
     """
     def __init__(self):
-        self.players = [Player("player1", (255, 165, 0)), Player("player2", (0, 0, 255))]
+        self.players = [Player("player1", ((255, 165, 0))), Player("player2", ((0, 0, 255)))]
         self.vertices = []
+        self.current_player = None
 
     def generate_vertices(self) -> list:
         temp = []
@@ -83,10 +84,20 @@ class Game:
 
         for num in range(len(self.vertices)):
             if self.vertices[num].button.draw(surface):
-                self.vertices[num].settlement = True
+
+                self.vertices[num].buy_settlement(self.current_player)
             self.vertices[num].button.draw(surface)
             self.vertices[num].draw(surface)
 
+    def set_order(self):
+        for num in range(len(self.players)):
+            if not num == len(self.players)-1:
+                self.players[num].before = self.players[num+1]
+        self.players[len(self.players)-1].before = self.players[0]
+
+    def change_player(self):
+
+        self.current_player = self.current_player.before
 
 
 class Vertex:
@@ -99,9 +110,10 @@ class Vertex:
         self.x = x
         self.y = y
 
-    def buy_settlement(self, player: Player):
+    def buy_settlement(self, player: Player) -> Player:
         self.settlement = True
-        self.color = Player.color
+        self.color = player.color
+
 
     def buy_city(self):
         self.settlement = False
@@ -110,7 +122,7 @@ class Vertex:
 
     def draw(self, surface):
         if self.settlement:
-            pygame.draw.polygon(surface, self.color, [(self.x, self.y-20),(self.x+20, self.y),(self.x-20, self.y)])
+            pygame.draw.polygon(surface, self.color, [(self.x, self.y-20),(self.x+20, self.y+5),(self.x-20, self.y+5)])
 
         if self.city:
             pygame.draw.polygon(surface, self.color, [(self.x-10, self.y-10),(self.x+10, self.y-10),(self.x-10, self.y+10),(self.x+10, self.y+10)])

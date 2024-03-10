@@ -20,6 +20,9 @@ class Player:
         self.name = name
         self.__turn = 0
         self.__cards = []
+
+    def __str__(self):
+        return self.name
     @property
     def color(self):
         return self.__color
@@ -27,6 +30,14 @@ class Player:
     @color.setter
     def color(self, value):
         self.__color = value
+
+    @property
+    def before(self):
+        return self.__before
+
+    @before.setter
+    def before(self, value):
+        self.__before = value
 
     @property
     def name(self) -> str:

@@ -136,9 +136,10 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption('Catan Board')
     game = Game()
+    game.current_player = game.players[0]
+
     game.generate_vertices()
-    start_x = (SCREEN_WIDTH - HEX_WIDTH * 5) / 2
-    start_y = (SCREEN_HEIGHT - HEX_HEIGHT * 5) / 2
+    game.set_order()
     start_screen(screen)
 
     font = pygame.font.SysFont(FONT_STYLE, FONT_SIZE)
@@ -149,23 +150,35 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    pass
+                if event.key == pygame.K_i:
+                    pass
+                if event.key == pygame.K_s:
+                    pass
+
+                if event.key == pygame.K_c:
+                    pass
+
+                if event.key == pygame.K_e:
+
+                    game.change_player()
+
+
 
         screen.fill(BACKGROUND_COLOR)
-
-        # Calculate starting position to center the grid
-
-
         draw_grid(SCREEN_WIDTH, HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers)
-
+        game.draw_vertices(screen)
 
                 # Draw text to the right of the board
 
-        left_text = 'Press: \nR to roll \nI to buy a Road\nS to buy a Settlement\nC to buy a City\nE to end turn '
+        left_text = "Current Player: " + game.current_player.name + "\nPress: \nR to roll \nI to buy a Road\nS to buy a Settlement\nC to buy a City\nE to end turn "
         right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
         draw_text(screen, right_text, font, FONT_COLOR, SCREEN_WIDTH - 10, 25, align='right')
         draw_text(screen, left_text, font, FONT_COLOR, 10, 25, align='left')
 
-        game.draw_vertices(screen)
+
 
 
         pygame.display.flip()
