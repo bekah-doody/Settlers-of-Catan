@@ -202,7 +202,7 @@ def main():
 
         # Draw text to the right of the board
 
-        left_text = "Current Player: " + game.current_player.name + "\nPress: \nHold O to see Options \nR to roll \nE to end turn "
+        left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
         right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
