@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 from game import *
+import time
 
 pygame.init()
 
@@ -152,6 +153,57 @@ class board:
                 color_index += 1
 
 
+class animation:
+    def __init__(self):
+        self.images = []
+        self.time = time.time()
+        self.temp = 0
+        self.run = False
+
+    def randomize(self, screen):
+        if not self.images:
+            return
+        if self.time == 0:
+            self.time = 100
+            temp = self.temp
+            while temp == self.temp:
+                temp = random.randint(0, len(self.images) - 1)
+            self.temp = temp
+        self.images[self.temp].draw(screen)
+        self.time -= 1
+
+    def run_through(self, screen) -> bool:
+        if not self.images:
+            return False
+        if self.run:
+            self.images[self.temp].draw(screen)
+            temp = time.time()
+
+
+            if temp - self.time > .25:
+                self.time = time.time()
+                if self.temp == len(self.images) - 1:
+                    self.temp = 0
+                    return False
+                else:
+                    self.temp += 1
+            return True
+
+
+class Frame:
+    def __init__(self, x, y, image, scale=1):
+        width = image.get_width()
+        height = image.get_height()
+        self.image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+        self.clicked = False
+
+    def draw(self, surface):
+        # draw button on screen
+        surface.blit(self.image, (self.rect.x, self.rect.y))
+
+
 # Main function
 def main():
     b = board()
@@ -161,6 +213,12 @@ def main():
     pygame.display.set_caption('Catan Board')
     game = Game()
     game.current_player = game.players[0]
+    dice_roll = animation()
+    for num in range(1,6):
+        frame = "dices/frame"+str(num) +".png"
+        dice_frame = pygame.image.load(frame).convert_alpha()
+        scale = .5
+        dice_roll.images.append(Frame(50, 500, dice_frame, .1))
 
     game.generate_vertices()
     game.set_order()
@@ -178,7 +236,7 @@ def main():
                 if event.key == pygame.K_o:
                     show_options = True
                 if event.key == pygame.K_r:
-                    pass
+                    dice_roll.run = True
                 if event.key == pygame.K_i:
                     pass
                 if event.key == pygame.K_s:
@@ -199,6 +257,8 @@ def main():
         screen.fill(b.BACKGROUND_COLOR)
         b.draw_grid(b.SCREEN_WIDTH, b.HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers)
         game.draw_vertices(screen)
+        dice_roll.run = dice_roll.run_through(screen)
+        dice_roll.run_through(screen)
 
         # Draw text to the right of the board
 
