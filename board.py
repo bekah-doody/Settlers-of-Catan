@@ -9,6 +9,7 @@ class board:
     def __init__(self):
         self.SCREEN_WIDTH = 1250
         self.SCREEN_HEIGHT = 750
+        self.SCREEN = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         self.HEX_SIZE = 70
         self.HEX_WIDTH = math.sqrt(3) * self.HEX_SIZE
         self.HEX_HEIGHT = 1.5 * self.HEX_SIZE
@@ -88,6 +89,31 @@ class board:
                       self.SCREEN_HEIGHT // 2, align='center')
             pygame.display.flip()
 
+    def display_options(self, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN):
+        popup_width = 400
+        popup_height = 300
+        font = pygame.font.Font(None, 36)
+        popup_x = (SCREEN_WIDTH - popup_width) // 2
+        popup_y = (SCREEN_HEIGHT - popup_height) // 2
+
+        pygame.draw.rect(SCREEN,(250,250,250), (popup_x, popup_y, popup_width, popup_height))
+        pygame.draw.rect(SCREEN, (0,0,0), (popup_x, popup_y, popup_width, popup_height), 2)
+
+        commands = ['R to roll_die',
+                    'I to buy a Road',
+                    'S to buy a Settlement',
+                    'C to buy a City',
+                    'E to end turn',
+                    'N to view inventory',
+                    'B to Buy',]
+
+        for i, command in enumerate(commands):
+            text = font.render(command, True, (0,0,0))
+            SCREEN.blit(text, (popup_x + 20, popup_y + 20 + i * 40))
+
+        pygame.display.flip()
+
+
     # Function to roll a single die
     def roll_die(self):
         return random.randint(1, 6)
@@ -141,14 +167,16 @@ def main():
     b.start_screen(screen)
 
     font = pygame.font.SysFont(b.FONT_STYLE, b.FONT_SIZE)
-
     running = True
+    show_options = False
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_o:
+                    show_options = True
                 if event.key == pygame.K_r:
                     pass
                 if event.key == pygame.K_i:
@@ -160,8 +188,11 @@ def main():
                     pass
 
                 if event.key == pygame.K_e:
-
                     game.change_player()
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_o:
+                    show_options = False
 
 
 
@@ -169,13 +200,16 @@ def main():
         b.draw_grid(b.SCREEN_WIDTH, b.HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers)
         game.draw_vertices(screen)
 
-                # Draw text to the right of the board
+        # Draw text to the right of the board
 
-        left_text = "Current Player: " + game.current_player.name + "\nPress: \nR to roll \nE to end turn "
+        left_text = "Current Player: " + game.current_player.name + "\nPress: \nHold O to see Options \nR to roll \nE to end turn "
         right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
 
+
+        if show_options:
+            b.display_options(b.SCREEN_WIDTH,b.SCREEN_HEIGHT,b.SCREEN)
 
 
 
