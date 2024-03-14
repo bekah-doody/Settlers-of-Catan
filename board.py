@@ -3,6 +3,7 @@ import random
 import math
 from game import *
 import time
+import player
 
 pygame.init()
 
@@ -20,6 +21,8 @@ class board:
         self.FONT_STYLE = 'Arial'
         self.START_TEXT = "\n\nPress Space to Start\n\nBekah Doody \nDrew Baine \nJason Miranda"
         self.NUMBERS = ['2', '3', '3', '4', '4', '5', '5', '6', '6', '8', '8', '9', '9', '10', '10', '11', '11', '12']
+        self.grid_nums = []
+        self.grid_colors = []
         self.COLOR_QUANTITIES = {
             (255, 0, 0): 3,  # red -> bricks
             (0, 255, 0): 4,  # green -> sheep
@@ -115,14 +118,7 @@ class board:
         pygame.display.flip()
 
 
-    # Function to roll a single die
-    def roll_die(self):
-        return random.randint(1, 6)
 
-
-    # Function to roll two dice and return the results
-    def roll_dice(self):
-        return self.roll_die(), self.roll_die()
 
     def draw_grid(self,SCREEN_WIDTH, HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers):
 
@@ -149,8 +145,11 @@ class board:
                 self.draw_hexagon(screen, x, y, hexagon_colors[color_index])
                 if hexagon_colors[color_index] != (229, 201, 159):
                     self.draw_text(screen, hexagon_numbers[number_index], font, self.FONT_COLOR, x, y, align="center")
+                    self.grid_nums.append(hexagon_numbers[number_index])
+                    self.grid_colors.append(hexagon_colors[color_index])
                     number_index += 1
                 color_index += 1
+
 
 
 class animation:
@@ -206,6 +205,9 @@ class Frame:
 
 # Main function
 def main():
+    player1 = Player("player1", ((255, 165, 0)))
+    player2 = Player("player2", ((0, 0, 255)))
+
     b = board()
     hexagon_colors = b.generate_hexagon_colors()
     hexagon_numbers = b.generate_hexagon_numbers()
@@ -237,6 +239,9 @@ def main():
                     show_options = True
                 if event.key == pygame.K_r:
                     dice_roll.run = True
+                    roll = game.roll_dice()
+                    if b.grid_nums[0] == roll:
+                        pass
                 if event.key == pygame.K_i:
                     pass
                 if event.key == pygame.K_s:

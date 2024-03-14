@@ -19,7 +19,7 @@ class Player:
         self.__development_cards = []
         self.name = name
         self.__turn = 0
-        self.__cards = []
+        self.__cards = 0
 
     def __str__(self):
         return self.name
@@ -67,7 +67,7 @@ class Player:
     def settlements(self) -> int:
         return self.__settlements
 
-    @roads.setter
+    @settlements.setter
     def settlements(self, num: int):
         self.__settlements = num
 
@@ -80,7 +80,7 @@ class Player:
 
     @cities.setter
     def cities(self, num: int):
-        self.__cities == num
+        self.__cities = num
 
     def add_city(self):
         self.__cities += 1
@@ -98,8 +98,8 @@ class Player:
         self.__wood = num
 
     def collect_wood(self, num: int):
-        self.__wood += 1
-        self.__cards += 1
+        self.__wood += num
+        self.__cards += num
 
     @property
     def brick(self) -> int:
@@ -110,8 +110,8 @@ class Player:
         self.__brick = num
 
     def collect_brick(self, num: int):
-        self.__brick += 1
-        self.__cards += 1
+        self.__brick += num
+        self.__cards += num
 
     @property
     def sheep(self) -> int:
@@ -122,8 +122,8 @@ class Player:
         self.__sheep = num
 
     def collect_sheep(self, num: int):
-        self.__sheep += 1
-        self.__cards += 1
+        self.__sheep += num
+        self.__cards += num
 
     @property
     def wheat(self) -> int:
@@ -134,8 +134,8 @@ class Player:
         self.__wheat = num
 
     def collect_wheat(self, num: int):
-        self.__wheat += 1
-        self.__cards += 1
+        self.__wheat += num
+        self.__cards += num
 
     @property
     def ore(self) -> int:
@@ -146,8 +146,8 @@ class Player:
         self.__ore = num
 
     def collect_ore(self, num: int):
-        self.__ore += 1
-        self.__cards += 1
+        self.__ore += num
+        self.__cards += num
 
     @property
     def turn(self) -> int:

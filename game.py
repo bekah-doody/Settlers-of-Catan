@@ -1,6 +1,7 @@
 from player import Player
 from vertex_button import VertexButton
 import pygame
+import random
 class Game:
     """
     Holds information on the game
@@ -98,6 +99,15 @@ class Game:
     def change_player(self):
 
         self.current_player = self.current_player.before
+
+    # Function to roll a single die
+    def roll_die(self):
+        return random.randint(1, 6)
+
+
+    # Function to roll two dice and return the results
+    def roll_dice(self):
+        return self.roll_die(), self.roll_die()
 
 
 class Vertex:
