@@ -3,11 +3,34 @@ import random
 import math
 from game import *
 import time
+import player
 
 pygame.init()
 
 class board:
+    """
+    This class stores data and functions related to the Catan board
+
+    Attributes:
+        SCREEN_WIDTH(int): width of the pop-up screen
+        SCREEN_HEIGHT(int): height of the pop-up screen
+        SCREEN: the pygame screen itself
+        HEX_SIZE(int): size of resource hexagons
+        HEX_WIDTH(int): width of the resource hexagons
+        BACKGROUND_COLOR(int, int, int): the color of the screen background
+        FONT_COLOR(int, int, int): color of the text
+        FONT_SIZE(int): size of text
+        FONT_STYLE(int): the font itself
+        START_TEST(str): text on the start screen
+        NUMBERS(list): list of the roll probabilities to be distributed
+        grid_nums(list): list to be filled with the order of numbers of the board
+        grid_colors(list): list to be filled with the order of colors of the board
+        COLOR_QUANTITIES(dict): how many hexes of each color to be distributed
+    """
     def __init__(self):
+        """
+        Constructor of the board class
+        """
         self.SCREEN_WIDTH = 1250
         self.SCREEN_HEIGHT = 750
         self.SCREEN = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
@@ -20,6 +43,8 @@ class board:
         self.FONT_STYLE = 'Arial'
         self.START_TEXT = "\n\nPress Space to Start\n\nBekah Doody \nDrew Baine \nJason Miranda"
         self.NUMBERS = ['2', '3', '3', '4', '4', '5', '5', '6', '6', '8', '8', '9', '9', '10', '10', '11', '11', '12']
+        self.grid_nums = []
+        self.grid_colors = []
         self.COLOR_QUANTITIES = {
             (255, 0, 0): 3,  # red -> bricks
             (0, 255, 0): 4,  # green -> sheep
@@ -30,6 +55,10 @@ class board:
         }
 
     def generate_hexagon_colors(self):
+        """
+        Generates a shuffled list of hexagon colors
+        :return: hexagon_colors
+        """
         hexagon_colors = []
         colors = list(self.COLOR_QUANTITIES.keys())  # Get list of colors
         for color, quantity in self.COLOR_QUANTITIES.items():
@@ -38,19 +67,39 @@ class board:
         return hexagon_colors
 
     def generate_hexagon_numbers(self):
+        """
+        Generates a shuffled list of the roll probabilities
+        :return: shuffled roll probabilities
+        """
         return random.sample(self.NUMBERS, 18)
 
     def draw_hexagon(self, surface, x, y, color):
+        """
+        Draws the hexagons on the board
+        :param x: x coord to be placed at
+        :param y: y coord to be placed at
+        :param color: color of hexagon
+        """
         points = []
         for i in range(6):
             angle_deg = 60 * i + 30
             angle_rad = math.pi / 180 * angle_deg
             points.append((x + self.HEX_SIZE * math.cos(angle_rad),
                            y + self.HEX_SIZE * math.sin(angle_rad)))
-        pygame.draw.polygon(surface, (0, 0, 0), points, 5)  # Draw black border with a line width of 4
+        pygame.draw.polygon(surface, (0, 0, 0), points, 5)  # Draw black border
         pygame.draw.polygon(surface, color, points)
 
     def draw_text(self, surface, text, font, color, x, y, align="center"):
+        """
+        Draws text on the board
+        :param text: text to be printed
+        :param font: text font
+        :param color: text color
+        :param x: x coord of text placement
+        :param y: y coord of text placement
+        :param align: left/right/center alignment of text
+        :return:
+        """
         lines = text.split('\n')  # Split text by newline character
         y_offset = 0  # Initialize y offset for multiline text
         for line in lines:
@@ -60,14 +109,17 @@ class board:
                 text_rect.center = (x, y + y_offset)
             elif align == "left":
                 text_rect.left = x  # Adjust the left edge of the rectangle
-                text_rect.centery = y + y_offset  # Center the text vertically at the specified y-coordinate
+                text_rect.centery = y + y_offset  # Center the text vertically at specified y-coordinate
             elif align == "right":
-                text_rect.right = x  # Adjust the right edge of the rectangle
-                text_rect.centery = y + y_offset  # Center the text vertically at the specified y-coordinate
+                text_rect.right = x  # Adjust the right edge of rectangle
+                text_rect.centery = y + y_offset  # Center the text vertically at specified y-coordinate
             surface.blit(text_surface, text_rect)
-            y_offset += text_rect.height  # Update y offset for the next line
+            y_offset += text_rect.height  # Update y offset for next line
 
     def start_screen(self, screen):
+        """
+        Creates the start screen
+        """
 
         running = True
         while running:
@@ -91,6 +143,12 @@ class board:
             pygame.display.flip()
 
     def display_options(self, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN):
+        """
+        Creates the options menu
+        :param SCREEN_WIDTH: width of screen
+        :param SCREEN_HEIGHT: height of screen
+        :param SCREEN: the screen itself
+        """
         popup_width = 400
         popup_height = 300
         font = pygame.font.Font(None, 36)
@@ -115,16 +173,18 @@ class board:
         pygame.display.flip()
 
 
-    # Function to roll a single die
-    def roll_die(self):
-        return random.randint(1, 6)
 
-
-    # Function to roll two dice and return the results
-    def roll_dice(self):
-        return self.roll_die(), self.roll_die()
 
     def draw_grid(self,SCREEN_WIDTH, HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers):
+        """
+        Draws the grid of hexagons to create the classic Catan board
+        :param SCREEN_WIDTH: width of screen
+        :param HEX_WIDTH: width of hexagoons
+        :param screen: the screen itself
+        :param font: text font for roll probabilities
+        :param hexagon_colors: the randomized list of hexagon colors
+        :param hexagon_numbers: the randomized list of hexagon numbers
+        """
 
         # Calculate starting position to center the grid
         start_x = (SCREEN_WIDTH - HEX_WIDTH * 5) / 2
@@ -149,8 +209,11 @@ class board:
                 self.draw_hexagon(screen, x, y, hexagon_colors[color_index])
                 if hexagon_colors[color_index] != (229, 201, 159):
                     self.draw_text(screen, hexagon_numbers[number_index], font, self.FONT_COLOR, x, y, align="center")
+                    self.grid_nums.append(hexagon_numbers[number_index])
+                    self.grid_colors.append(hexagon_colors[color_index])
                     number_index += 1
                 color_index += 1
+
 
 
 class animation:
@@ -206,6 +269,9 @@ class Frame:
 
 # Main function
 def main():
+    player1 = Player("player1", ((255, 165, 0)))
+    player2 = Player("player2", ((0, 0, 255)))
+
     b = board()
     hexagon_colors = b.generate_hexagon_colors()
     hexagon_numbers = b.generate_hexagon_numbers()
@@ -237,6 +303,9 @@ def main():
                     show_options = True
                 if event.key == pygame.K_r:
                     dice_roll.run = True
+                    roll = game.roll_dice()
+                    if b.grid_nums[0] == roll:
+                        pass
                 if event.key == pygame.K_i:
                     pass
                 if event.key == pygame.K_s:
@@ -280,3 +349,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

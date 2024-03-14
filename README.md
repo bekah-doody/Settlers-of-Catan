@@ -1,10 +1,4 @@
 # Settlers-of-Catan
-CIS 350 term projcet
+CIS 350 term project
 
 **Make sure you pull before you start working
-**And make sure to let others know when & what you push
-
-You can add important messages for the group here:
-  - I just commited a bunch of getters and setters in the player class, and a couple in resource_cards, so make sure to pull -BD
-  - Changed all instance of wool to sheep (figured it would mave wool vs. wood distinction easier) -BD
-  - Made the hexagonal grid -BD

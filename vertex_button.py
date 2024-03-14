@@ -2,9 +2,25 @@ import pygame
 
 
 class VertexButton:
+    """
+    This class stores data relating to vertex buttons
+    Attributes:
+        center(int, int)
+        radius(int)
+        clicked(bool)
+        topleft(int, int)
+        rect(Rect)
+        color(int, int, int)
+    """
     def __init__(self, center_x: int, center_y: int, radius: int):
 
-        self.center = (center_x, center_y)
+        """
+        Constructor of the vertex button class
+        """
+        x = center_x
+        y = center_y
+        self.center = (x, y)
+
         self.radius = radius
         self.clicked = False
         self.rect = pygame.rect.Rect((center_x-radius, center_y-radius), (self.radius*2, self.radius*2))
@@ -12,6 +28,9 @@ class VertexButton:
 
 
     def draw(self, surface) -> bool:
+        """
+        Draws the vertex button using pygame
+        """
         action = False
         color = self.color
         radius = self.radius
