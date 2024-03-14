@@ -7,6 +7,7 @@ import player
 
 pygame.init()
 
+
 class board:
     """
     This class stores data and functions related to the Catan board
@@ -27,6 +28,7 @@ class board:
         grid_colors(list): list to be filled with the order of colors of the board
         COLOR_QUANTITIES(dict): how many hexes of each color to be distributed
     """
+
     def __init__(self):
         """
         Constructor of the board class
@@ -132,14 +134,16 @@ class board:
 
             screen.fill(self.BACKGROUND_COLOR)
             font = pygame.font.SysFont(self.FONT_STYLE, 150)
-            self.draw_text(screen, "Settlers of Catan", font, (255, 255, 255), self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2 - 70,
-                      align='center')
+            self.draw_text(screen, "Settlers of Catan", font, (255, 255, 255), self.SCREEN_WIDTH // 2,
+                           self.SCREEN_HEIGHT // 2 - 70,
+                           align='center')
             font = pygame.font.SysFont(self.FONT_STYLE, 70)
             self.draw_text(screen, "\n\nPress Space to Start", font, (255, 255, 255), self.SCREEN_WIDTH // 2,
-                      self.SCREEN_HEIGHT // 2 - 100, align='center')
+                           self.SCREEN_HEIGHT // 2 - 100, align='center')
             font = pygame.font.SysFont(self.FONT_STYLE, self.FONT_SIZE)
-            self.draw_text(screen, "\n\n\n\nBekah Doody\nDrew Baine\nJason Miranda", font, (15, 15, 100), self.SCREEN_WIDTH // 2,
-                      self.SCREEN_HEIGHT // 2, align='center')
+            self.draw_text(screen, "\n\n\n\nBekah Doody\nDrew Baine\nJason Miranda", font, (15, 15, 100),
+                           self.SCREEN_WIDTH // 2,
+                           self.SCREEN_HEIGHT // 2, align='center')
             pygame.display.flip()
 
     def display_options(self, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN):
@@ -155,8 +159,8 @@ class board:
         popup_x = (SCREEN_WIDTH - popup_width) // 2
         popup_y = (SCREEN_HEIGHT - popup_height) // 2
 
-        pygame.draw.rect(SCREEN,(250,250,250), (popup_x, popup_y, popup_width, popup_height))
-        pygame.draw.rect(SCREEN, (0,0,0), (popup_x, popup_y, popup_width, popup_height), 2)
+        pygame.draw.rect(SCREEN, (250, 250, 250), (popup_x, popup_y, popup_width, popup_height))
+        pygame.draw.rect(SCREEN, (0, 0, 0), (popup_x, popup_y, popup_width, popup_height), 2)
 
         commands = ['R to roll_die',
                     'I to buy a Road',
@@ -164,18 +168,15 @@ class board:
                     'C to buy a City',
                     'E to end turn',
                     'N to view inventory',
-                    'B to Buy',]
+                    'B to Buy', ]
 
         for i, command in enumerate(commands):
-            text = font.render(command, True, (0,0,0))
+            text = font.render(command, True, (0, 0, 0))
             SCREEN.blit(text, (popup_x + 20, popup_y + 20 + i * 40))
 
         pygame.display.flip()
 
-
-
-
-    def draw_grid(self,SCREEN_WIDTH, HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers):
+    def draw_grid(self, SCREEN_WIDTH, HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers):
         """
         Draws the grid of hexagons to create the classic Catan board
         :param SCREEN_WIDTH: width of screen
@@ -215,7 +216,6 @@ class board:
                 color_index += 1
 
 
-
 class animation:
     def __init__(self):
         self.images = []
@@ -241,7 +241,6 @@ class animation:
         if self.run:
             self.images[self.temp].draw(screen)
             temp = time.time()
-
 
             if temp - self.time > .25:
                 self.time = time.time()
@@ -269,27 +268,39 @@ class Frame:
 
 # Main function
 def main():
+    """
+    Main function
+    """
+
+    # Creates two players
     player1 = Player("player1", ((255, 165, 0)))
     player2 = Player("player2", ((0, 0, 255)))
 
+    # initializes board
     b = board()
     hexagon_colors = b.generate_hexagon_colors()
     hexagon_numbers = b.generate_hexagon_numbers()
     screen = pygame.display.set_mode((b.SCREEN_WIDTH, b.SCREEN_HEIGHT))
     pygame.display.set_caption('Catan Board')
+
+    # initializes game
     game = Game()
     game.current_player = game.players[0]
+
+    # dice roll animation
     dice_roll = animation()
-    for num in range(1,6):
-        frame = "dices/frame"+str(num) +".png"
+    for num in range(1, 6):
+        frame = "dices/frame" + str(num) + ".png"
         dice_frame = pygame.image.load(frame).convert_alpha()
         scale = .5
         dice_roll.images.append(Frame(50, 500, dice_frame, .1))
 
+    # creates the vertices
     game.generate_vertices()
     game.set_order()
     b.start_screen(screen)
 
+    # running logic
     font = pygame.font.SysFont(b.FONT_STYLE, b.FONT_SIZE)
     running = True
     show_options = False
@@ -321,26 +332,20 @@ def main():
                 if event.key == pygame.K_o:
                     show_options = False
 
-
-
         screen.fill(b.BACKGROUND_COLOR)
         b.draw_grid(b.SCREEN_WIDTH, b.HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers)
         game.draw_vertices(screen)
         dice_roll.run = dice_roll.run_through(screen)
         dice_roll.run_through(screen)
 
-        # Draw text to the right of the board
-
+        # Draw text to the right and left of the board
         left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
         right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
 
-
         if show_options:
-            b.display_options(b.SCREEN_WIDTH,b.SCREEN_HEIGHT,b.SCREEN)
-
-
+            b.display_options(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN)
 
         pygame.display.flip()
 
@@ -349,4 +354,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
