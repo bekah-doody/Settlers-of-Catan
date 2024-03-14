@@ -3,15 +3,13 @@ import pygame
 
 class VertexButton:
     def __init__(self, center_x: int, center_y: int, radius: int):
-        x = center_x
-        y = center_y
-        self.center = (x, y)
+
+        self.center = (center_x, center_y)
         self.radius = radius
         self.clicked = False
-        self.topleft = (x-radius, y-radius)
-        self.rect = pygame.rect.Rect(self.topleft, (self.radius*2, self.radius*2))
+        self.rect = pygame.rect.Rect((center_x-radius, center_y-radius), (self.radius*2, self.radius*2))
         self.color = (225, 225, 225)
-        self.clicked = False
+
 
     def draw(self, surface) -> bool:
         action = False

@@ -1,9 +1,12 @@
+"This class holds Game and Vertex. Game holds all the information on "
+
 from player import Player
 from vertex_button import VertexButton
 import pygame
 class Game:
     """
-    Holds information on the game
+    Holds information on the game. Includes which players turn it is along with if a vertex has been clicked and what player has it.
+
     """
     def __init__(self):
         self.players = [Player("player1", ((255, 165, 0))), Player("player2", ((0, 0, 255)))]
@@ -11,6 +14,7 @@ class Game:
         self.current_player = None
 
     def generate_vertices(self) -> list:
+        "Generates all vertices and fills self.vertices"
         temp = []
         #top
         temp.append(Vertex(480, 101))
@@ -81,7 +85,6 @@ class Game:
         self.vertices = temp
 
     def draw_vertices(self, surface):
-
         for num in range(len(self.vertices)):
             if self.vertices[num].button.draw(surface):
 
@@ -110,7 +113,7 @@ class Vertex:
         self.x = x
         self.y = y
 
-    def buy_settlement(self, player: Player) -> Player:
+    def buy_settlement(self, player: Player):
         self.settlement = True
         self.color = player.color
 
