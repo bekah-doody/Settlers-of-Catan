@@ -4,7 +4,7 @@ import math
 from game import *
 import time
 import player
-
+import resource_hexes
 pygame.init()
 
 
@@ -55,6 +55,13 @@ class board:
             (255, 255, 0): 4,  # yellow -> wheat
             (229, 201, 159): 1,  # tan -desert
         }
+        self.hill= None
+        self.mountain = None
+        self.pasture = None
+        self.forest = None
+        self.desert = None
+        self.field = None
+
 
     def generate_hexagon_colors(self):
         """
@@ -162,13 +169,9 @@ class board:
         pygame.draw.rect(SCREEN, (250, 250, 250), (popup_x, popup_y, popup_width, popup_height))
         pygame.draw.rect(SCREEN, (0, 0, 0), (popup_x, popup_y, popup_width, popup_height), 2)
 
-        commands = ['R to roll_die',
-                    'I to buy a Road',
-                    'S to buy a Settlement',
-                    'C to buy a City',
+        commands = ['R to roll dice',
                     'E to end turn',
-                    'N to view inventory',
-                    'B to Buy', ]
+                    'I to view inventory']
 
         for i, command in enumerate(commands):
             text = font.render(command, True, (0, 0, 0))
@@ -204,6 +207,21 @@ class board:
 
         pygame.display.flip()
 
+    def load_images(self):
+        self.hill = pygame.image.load("resource_hexes/hill-removebg-preview.png")
+        self.pasture = pygame.image.load("resource_hexes/pasture-removebg-preview.png")
+        self.mountain = pygame.image.load("resource_hexes/mountain-removebg-preview.png")
+        self.forest = pygame.image.load("resource_hexes/forest-removebg-preview.png")
+        self.desert = pygame.image.load("resource_hexes/desert-removebg-preview.png")
+        self.field = pygame.image.load("resource_hexes/field-removebg-preview.png")
+
+        self.hill = pygame.transform.scale(self.hill, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
+        self.pasture = pygame.transform.scale(self.pasture, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
+        self.mountain = pygame.transform.scale(self.mountain, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
+        self.forest = pygame.transform.scale(self.forest, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
+        self.desert = pygame.transform.scale(self.desert, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
+        self.field = pygame.transform.scale(self.field, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
+
     def draw_grid(self, SCREEN_WIDTH, HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers):
         """
         Draws the grid of hexagons to create the classic Catan board
@@ -218,6 +236,18 @@ class board:
         # Calculate starting position to center the grid
         start_x = (SCREEN_WIDTH - HEX_WIDTH * 5) / 2
         start_y = (self.SCREEN_HEIGHT - self.HEX_HEIGHT * 5) / 2
+
+        self.load_images()
+
+        resource_images = {
+            (255, 0, 0): self.hill,
+            (0, 255, 0): self.pasture,
+            (139, 69, 19): self.forest,
+            (176, 196, 222):self.mountain,
+            (255, 255, 0): self.field,
+            (229, 201, 159): self.desert,
+        }
+
         # Draw hexagonal grid
         color_index = 0
         number_index = 0
@@ -237,11 +267,23 @@ class board:
                 y = start_y + 60 + row * self.HEX_HEIGHT
                 self.draw_hexagon(screen, x, y, hexagon_colors[color_index])
                 if hexagon_colors[color_index] != (229, 201, 159):
+                    resource_image = resource_images[hexagon_colors[color_index]]
+                    screen.blit(resource_image,
+                                (x - resource_image.get_width() / 2, y - resource_image.get_height() / 2))
                     self.draw_text(screen, hexagon_numbers[number_index], font, self.FONT_COLOR, x, y, align="center")
                     self.grid_nums.append(hexagon_numbers[number_index])
                     self.grid_colors.append(hexagon_colors[color_index])
                     number_index += 1
+                else:
+                    desert_image = resource_images[(229, 201, 159)]
+                    screen.blit(desert_image,
+                                (x - desert_image.get_width() / 2, y - desert_image.get_height() / 2))
                 color_index += 1
+                #     self.draw_text(screen, hexagon_numbers[number_index], font, self.FONT_COLOR, x, y, align="center")
+                #     self.grid_nums.append(hexagon_numbers[number_index])
+                #     self.grid_colors.append(hexagon_colors[color_index])
+                #     number_index += 1
+                # color_index += 1
 
 
 class animation:
