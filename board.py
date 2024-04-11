@@ -321,13 +321,12 @@ def main():
                     # Distribute resources based on the rolled number
                     for i, num in enumerate(b.grid_nums):
                         if num == roll:
-                            # Get adjacent vertices
                             adjacent_indices = game.get_adjacent_indices(i)
                             for vertex_index in adjacent_indices:
-                                # Check if player has a settlement or city on the vertex
+                                # Check for city/settlement
                                 if game.vertices[vertex_index].owner is not None:
                                     player = game.vertices[vertex_index].owner
-                                    # Award resource to the player
+                                    # give resource
                                     resource_color = b.grid_colors[i]
                                     if resource_color == (255, 0, 0):
                                         player.brick += 1
