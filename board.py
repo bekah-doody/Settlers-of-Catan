@@ -176,6 +176,34 @@ class board:
 
         pygame.display.flip()
 
+    def display_inventory(self, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN, wood, brick, sheep, wheat, ore):
+        """
+        Creates the options menu
+        :param SCREEN_WIDTH: width of screen
+        :param SCREEN_HEIGHT: height of screen
+        :param SCREEN: the screen itself
+        """
+        popup_width = 400
+        popup_height = 300
+        font = pygame.font.Font(None, 36)
+        popup_x = (SCREEN_WIDTH - popup_width) // 2
+        popup_y = (SCREEN_HEIGHT - popup_height) // 2
+
+        pygame.draw.rect(SCREEN, (250, 250, 250), (popup_x, popup_y, popup_width, popup_height))
+        pygame.draw.rect(SCREEN, (0, 0, 0), (popup_x, popup_y, popup_width, popup_height), 2)
+
+        commands = ["Wood: " + str(wood),
+                    "Bricks: " + str(brick),
+                    "Sheep: " + str(sheep),
+                    "Wheat: " + str(wheat),
+                    "Ore: " + str(ore) ]
+
+        for i, command in enumerate(commands):
+            text = font.render(command, True, (0, 0, 0))
+            SCREEN.blit(text, (popup_x + 20, popup_y + 20 + i * 40))
+
+        pygame.display.flip()
+
     def draw_grid(self, SCREEN_WIDTH, HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers):
         """
         Draws the grid of hexagons to create the classic Catan board
@@ -305,6 +333,7 @@ def main():
     font = pygame.font.SysFont(b.FONT_STYLE, b.FONT_SIZE)
     running = True
     show_options = False
+    show_inventory = False
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -342,7 +371,8 @@ def main():
                                 pass
 
                 if event.key == pygame.K_i:
-                    pass
+                    if event.key == pygame.K_i:
+                        show_inventory = True
                 if event.key == pygame.K_s:
                     pass
 
@@ -355,6 +385,8 @@ def main():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_o:
                     show_options = False
+                if event.key == pygame.K_i:
+                    show_inventory = False
 
         screen.fill(b.BACKGROUND_COLOR)
         b.draw_grid(b.SCREEN_WIDTH, b.HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers)
@@ -363,14 +395,15 @@ def main():
         dice_roll.run_through(screen)
 
         # Draw text to the right and left of the board
-        left_text = "Current Player: " + game.current_player.name + "\nWood: " + str(game.current_player.wood)  + "\nBricks: " + str(game.current_player.brick) + "\nSheep: " + str(game.current_player.sheep) + "\nWheat: " + str(game.current_player.wheat) + "\nOre: " + str(game.current_player.ore) + "\nHold O to see Options"
+        left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
         right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
 
         if show_options:
             b.display_options(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN)
-
+        if show_inventory:
+            b.display_inventory(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN,game.current_player.wood, game.current_player.brick, game.current_player.sheep, game.current_player.wheat, game.current_player.ore)
         pygame.display.flip()
 
     pygame.quit()
