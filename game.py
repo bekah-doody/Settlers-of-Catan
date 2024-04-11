@@ -134,15 +134,10 @@ class Game:
         Parameters:
             roll(int) = the number the dice roll
         """
-        for vertex in self.vertices:
-            if vertex.settlement and vertex.button.is_clicked:
-                player = vertex.button.clicked_player
-                for adjacent_vertex in vertex.Adjacent:
-                    if adjacent_vertex.city:
-                        resource_type = self.get_resource_type(adjacent_vertex.color)
-                        player.collect_resource(resource_type)
 
-    def get_resource_type(selfself, color):
+
+
+    def get_resource_type(self, color):
         resource_mapping = {
             (0, 255, 0): "sheep",  # Green
             (255, 255, 0): "wheat",  # Yellow

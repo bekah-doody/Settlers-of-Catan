@@ -55,6 +55,14 @@ class board:
             (255, 255, 0): 4,  # yellow -> wheat
             (229, 201, 159): 1,  # tan -desert
         }
+        self.COLOR_DICT = {
+            (255, 0, 0): "bricks",  # red -> bricks
+            (0, 255, 0): "sheep",  # green -> sheep
+            (139, 69, 19): "wood",  # brown -> wood
+            (176, 196, 222): "ore",  # blue-gray -> mountains
+            (255, 255, 0): "wheat",  # yellow -> wheat
+            (229, 201, 159): "desert",
+        }
         self.hill= None
         self.mountain = None
         self.pasture = None
@@ -347,6 +355,8 @@ def main():
     player1 = Player("player1", ((255, 165, 0)))
     player2 = Player("player2", ((0, 0, 255)))
 
+    players = (player1, player2)
+
     # initializes board
     b = board()
     hexagon_colors = b.generate_hexagon_colors()
@@ -389,26 +399,14 @@ def main():
                     rolla = game.roll_dice()
                     roll = rolla[0] + rolla[1]
                     print(roll)
+
                     # Distribute resources based on the rolled number
-                    for i, num in enumerate(b.grid_nums):
-                        if num == roll:
-                            adjacent_indices = game.get_adjacent_indices(i)
-                            for vertex_index in adjacent_indices:
-                                # Check for city/settlement
-                                if game.vertices[vertex_index].owner is not None:
-                                    player = game.vertices[vertex_index].owner
-                                    # give resource
-                                    resource_color = b.grid_colors[i]
-                                    if resource_color == (255, 0, 0):
-                                        player.brick += 1
-                                    elif resource_color == (0, 255, 0):
-                                        player.sheep += 1
-                                    elif resource_color == (139, 69, 19):
-                                        player.wood += 1
-                                    elif resource_color == (176, 196, 222):
-                                        player.ore += 1
-                                    elif resource_color == (255, 255, 0):
-                                        player.wheat += 1
+                    for hex_index, hex_number in enumerate(hexagon_numbers):
+                        if hex_number == roll:
+                            hex_color = hexagon_colors[hex_index]
+                            resources = game.get_resource_type(hex_color)
+                            for player in players:
+                                player.collect_resource(resources)
                     if b.grid_nums[0] == roll:
                                 pass
 
@@ -437,7 +435,11 @@ def main():
         dice_roll.run_through(screen)
 
         # Draw text to the right and left of the board
-        left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
+        left_text = "Current Player: " + game.current_player.name + "\nWood: " + str(
+            game.current_player.wood) + "\nBricks: " + str(game.current_player.brick) + "\nSheep: " + str(
+            game.current_player.sheep) + "\nWheat: " + str(game.current_player.wheat) + "\nOre: " + str(
+            game.current_player.ore) + "\nHold O to see Options"
+        # left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
         right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
