@@ -45,6 +45,18 @@ class Player:
     def __str__(self):
         return self.name
 
+    def collect_resource(self, resource_type):
+        if resource_type == "wood":
+            self.collect_wood(1)
+        elif resource_type == "brick":
+            self.collect_brick(1)
+        elif resource_type == "sheep":
+            self.collect_sheep(1)
+        elif resource_type == "wheat":
+            self.collect_wheat(1)
+        elif resource_type == "ore":
+            self.collect_ore(1)
+
     @property
     def color(self):
         """
@@ -53,6 +65,7 @@ class Player:
         :return: color
         """
         return self.__color
+
 
     @color.setter
     def color(self, value):
@@ -161,12 +174,12 @@ class Player:
     # Getters and Setters for resource cards
 
     @property
-    def wood(self) -> int:
+    def wood(self) -> str:
         """
         Getter for the wood attribute
         :return: wood
         """
-        return self.__wood
+        return str(self.__wood)
 
     @wood.setter
     def wood(self, num: int):

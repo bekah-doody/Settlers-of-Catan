@@ -222,6 +222,7 @@ class animation:
         self.time = time.time()
         self.temp = 0
         self.run = False
+        self.roll = None
 
     def randomize(self, screen):
         if not self.images:
@@ -314,9 +315,33 @@ def main():
                     show_options = True
                 if event.key == pygame.K_r:
                     dice_roll.run = True
-                    roll = game.roll_dice()
+                    rolla = game.roll_dice()
+                    roll = rolla[0] + rolla[1]
+                    print(roll)
+                    # Distribute resources based on the rolled number
+                    for i, num in enumerate(b.grid_nums):
+                        if num == roll:
+                            # Get adjacent vertices
+                            adjacent_indices = game.get_adjacent_indices(i)
+                            for vertex_index in adjacent_indices:
+                                # Check if player has a settlement or city on the vertex
+                                if game.vertices[vertex_index].owner is not None:
+                                    player = game.vertices[vertex_index].owner
+                                    # Award resource to the player
+                                    resource_color = b.grid_colors[i]
+                                    if resource_color == (255, 0, 0):
+                                        player.brick += 1
+                                    elif resource_color == (0, 255, 0):
+                                        player.sheep += 1
+                                    elif resource_color == (139, 69, 19):
+                                        player.wood += 1
+                                    elif resource_color == (176, 196, 222):
+                                        player.ore += 1
+                                    elif resource_color == (255, 255, 0):
+                                        player.wheat += 1
                     if b.grid_nums[0] == roll:
-                        pass
+                                pass
+
                 if event.key == pygame.K_i:
                     pass
                 if event.key == pygame.K_s:
@@ -339,7 +364,7 @@ def main():
         dice_roll.run_through(screen)
 
         # Draw text to the right and left of the board
-        left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
+        left_text = "Current Player: " + game.current_player.name + "\nWood: " + str(game.current_player.wood)  + "\nBricks: " + str(game.current_player.brick) + "\nSheep: " + str(game.current_player.sheep) + "\nWheat: " + str(game.current_player.wheat) + "\nOre: " + str(game.current_player.ore) + "\nHold O to see Options"
         right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
