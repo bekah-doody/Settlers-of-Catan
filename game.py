@@ -10,7 +10,7 @@ class Game:
 
     """
     def __init__(self):
-        self.players = [Player("player1", ((255, 165, 0))), Player("player2", ((0, 0, 255)))]
+        self.players = [Player("player1", ((255, 0, 0))), Player("player2", ((0, 0, 255)))]
         self.vertices = []
         self.current_player = None
 

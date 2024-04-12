@@ -361,7 +361,6 @@ def main():
     b = board()
     hexagon_colors = b.generate_hexagon_colors()
     hexagon_numbers = b.generate_hexagon_numbers()
-    print(hexagon_numbers)
     screen = pygame.display.set_mode((b.SCREEN_WIDTH, b.SCREEN_HEIGHT))
     pygame.display.set_caption('Catan Board')
 
@@ -403,14 +402,13 @@ def main():
 
                     # Distribute resources based on the rolled number
                     for num in range (0, len(hexagon_numbers)):
-                        print ("hex number: ", hexagon_numbers[num])
                         a = hexagon_numbers[num]
                         if int(a) == (roll):
-                            print('in if')
                             hex_color = hexagon_colors[num]
                             resources = game.get_resource_type(hex_color)
                             for player in players:
                                 player.collect_resource(resources)
+                                print(player)
                                 print("Wood", player.wood)
                                 print("Wheat", player.wheat)
                                 print("Sheep", player.sheep)
@@ -457,6 +455,13 @@ def main():
             b.display_options(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN)
         if show_inventory:
             b.display_inventory(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN,game.current_player.wood, game.current_player.brick, game.current_player.sheep, game.current_player.wheat, game.current_player.ore)
+            print(game.current_player)
+            print("Wood", game.current_player.wood)
+            print("Wheat", game.current_player.wheat)
+            print("Sheep", game.current_player.sheep)
+            print("Brick", game.current_player.brick)
+            print("Ore", game.current_player.ore)
+
         pygame.display.flip()
 
     pygame.quit()
