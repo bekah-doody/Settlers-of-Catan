@@ -8,10 +8,12 @@ class DevelopmentCard(ABC):
     def __init__(self):
         # function to initialize object
         pass
+
     @abstractmethod
     def __str__(self):
         # Abstract method which is for the title/ description of the card
         pass
+
     @abstractmethod
     def CheckMaterials(self, ore, wheat, wool):
         # this function is supposed to be used to check if a player has enough material
@@ -67,5 +69,3 @@ class VictoryPointCard(DevelopmentCard):
 
     def CheckMaterials(self, ore, wheat, wool):
         pass
-
-

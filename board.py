@@ -5,6 +5,7 @@ from game import *
 import time
 import player
 import resource_hexes
+
 pygame.init()
 
 
@@ -63,13 +64,12 @@ class board:
             (255, 255, 0): "wheat",  # yellow -> wheat
             (229, 201, 159): "desert",
         }
-        self.hill= None
+        self.hill = None
         self.mountain = None
         self.pasture = None
         self.forest = None
         self.desert = None
         self.field = None
-
 
     def generate_hexagon_colors(self):
         """
@@ -207,7 +207,7 @@ class board:
                     "Bricks: " + str(brick),
                     "Sheep: " + str(sheep),
                     "Wheat: " + str(wheat),
-                    "Ore: " + str(ore) ]
+                    "Ore: " + str(ore)]
 
         for i, command in enumerate(commands):
             text = font.render(command, True, (0, 0, 0))
@@ -223,12 +223,12 @@ class board:
         self.desert = pygame.image.load("resource_hexes/desert-removebg-preview.png")
         self.field = pygame.image.load("resource_hexes/field-removebg-preview.png")
 
-        self.hill = pygame.transform.scale(self.hill, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
-        self.pasture = pygame.transform.scale(self.pasture, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
-        self.mountain = pygame.transform.scale(self.mountain, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
-        self.forest = pygame.transform.scale(self.forest, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
-        self.desert = pygame.transform.scale(self.desert, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
-        self.field = pygame.transform.scale(self.field, (self.HEX_WIDTH+18, self.HEX_HEIGHT+42))
+        self.hill = pygame.transform.scale(self.hill, (self.HEX_WIDTH + 18, self.HEX_HEIGHT + 42))
+        self.pasture = pygame.transform.scale(self.pasture, (self.HEX_WIDTH + 18, self.HEX_HEIGHT + 42))
+        self.mountain = pygame.transform.scale(self.mountain, (self.HEX_WIDTH + 18, self.HEX_HEIGHT + 42))
+        self.forest = pygame.transform.scale(self.forest, (self.HEX_WIDTH + 18, self.HEX_HEIGHT + 42))
+        self.desert = pygame.transform.scale(self.desert, (self.HEX_WIDTH + 18, self.HEX_HEIGHT + 42))
+        self.field = pygame.transform.scale(self.field, (self.HEX_WIDTH + 18, self.HEX_HEIGHT + 42))
 
     def draw_grid(self, SCREEN_WIDTH, HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers):
         """
@@ -251,7 +251,7 @@ class board:
             (255, 0, 0): self.hill,
             (0, 255, 0): self.pasture,
             (139, 69, 19): self.forest,
-            (176, 196, 222):self.mountain,
+            (176, 196, 222): self.mountain,
             (255, 255, 0): self.field,
             (229, 201, 159): self.desert,
         }
@@ -401,21 +401,24 @@ def main():
                     print(roll)
 
                     # Distribute resources based on the rolled number
-                    for num in range (0, len(hexagon_numbers)):
+                    for num in range(0, len(hexagon_numbers)):
                         a = hexagon_numbers[num]
                         if int(a) == (roll):
                             hex_color = hexagon_colors[num]
                             resources = game.get_resource_type(hex_color)
-                            for player in players:
-                                player.collect_resource(resources)
-                                print(player)
-                                print("Wood", player.wood)
-                                print("Wheat", player.wheat)
-                                print("Sheep", player.sheep)
-                                print("Brick", player.brick)
-                                print("Ore", player.ore)
-                    if b.grid_nums[0] == roll:
-                                pass
+                            player1.collect_resource(resources)
+                            print("Wood", player1.wood)
+                            print("Wheat", player1.wheat)
+                            print("Sheep", player1.sheep)
+                            print("Brick", player1.brick)
+                            print("Ore", player1.ore)
+                            player2.collect_resource(resources)
+                            print("Wood", player2.wood)
+                            print("Wheat", player2.wheat)
+                            print("Sheep", player2.sheep)
+                            print("Brick", player2.brick)
+                            print("Ore", player2.ore)
+                            pygame.display.flip()
 
                 if event.key == pygame.K_i:
                     if event.key == pygame.K_i:
@@ -442,10 +445,11 @@ def main():
         dice_roll.run_through(screen)
 
         # Draw text to the right and left of the board
+        player4 = game.current_player
         left_text = "Current Player: " + game.current_player.name + "\nWood: " + str(
-            game.current_player.wood) + "\nBricks: " + str(game.current_player.brick) + "\nSheep: " + str(
-            game.current_player.sheep) + "\nWheat: " + str(game.current_player.wheat) + "\nOre: " + str(
-            game.current_player.ore) + "\nHold O to see Options"
+            player1.wood) + "\nBricks: " + str(player1.brick) + "\nSheep: " + str(
+            player1.sheep) + "\nWheat: " + str(player1.wheat) + "\nOre: " + str(
+            player1.ore) + "\nHold O to see Options"
         # left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
         right_text = ''
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
@@ -454,13 +458,9 @@ def main():
         if show_options:
             b.display_options(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN)
         if show_inventory:
-            b.display_inventory(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN,game.current_player.wood, game.current_player.brick, game.current_player.sheep, game.current_player.wheat, game.current_player.ore)
-            print(game.current_player)
-            print("Wood", game.current_player.wood)
-            print("Wheat", game.current_player.wheat)
-            print("Sheep", game.current_player.sheep)
-            print("Brick", game.current_player.brick)
-            print("Ore", game.current_player.ore)
+            b.display_inventory(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN, player1.wood,
+                                player1.brick, player1.sheep, player1.wheat,
+                                player1.ore)
 
         pygame.display.flip()
 

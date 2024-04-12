@@ -7,12 +7,12 @@ class ResourceCard(abc.ABC):
     """
 
     def __init__(self):
-        #Constructor
+        # Constructor
         pass
 
     @abc.abstractmethod
     def __str__(self):
-        #str method
+        # str method
         pass
 
 
@@ -20,6 +20,7 @@ class BrickCard(ResourceCard):
     """
     BrickCard class that is a child of ResourceCard
     """
+
     def __str__(self):
         """
         returns name of resource card
@@ -31,6 +32,7 @@ class WoodCard(ResourceCard):
     """
     WoodCard class that is a child of ResourceCard
     """
+
     def __str__(self):
         """
         returns name of resource card
@@ -42,6 +44,7 @@ class SheepCard(ResourceCard):
     """
     SheepCard class that is a child of ResourceCard
     """
+
     def __str__(self):
         """
         returns name of resource card
@@ -53,6 +56,7 @@ class WheatCard(ResourceCard):
     """
     WheatCard class that is a child of ResourceCard
     """
+
     def __str__(self):
         """
         returns name of resource card
@@ -64,6 +68,7 @@ class OreCard(ResourceCard):
     """
     OreCard class that is a child of ResourceCard
     """
+
     def __str__(self):
         """
         returns name of resource card

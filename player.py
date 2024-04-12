@@ -45,7 +45,7 @@ class Player:
     def __str__(self):
         return self.name
 
-    def collect_resource(self, resource_type:str):
+    def collect_resource(self, resource_type: str):
         if resource_type == "wood":
             self.collect_wood(1)
         elif resource_type == "brick":
@@ -65,7 +65,6 @@ class Player:
         :return: color
         """
         return self.__color
-
 
     @color.setter
     def color(self, value):
