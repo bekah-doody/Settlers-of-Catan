@@ -361,6 +361,7 @@ def main():
     b = board()
     hexagon_colors = b.generate_hexagon_colors()
     hexagon_numbers = b.generate_hexagon_numbers()
+    print(hexagon_numbers)
     screen = pygame.display.set_mode((b.SCREEN_WIDTH, b.SCREEN_HEIGHT))
     pygame.display.set_caption('Catan Board')
 
@@ -401,12 +402,20 @@ def main():
                     print(roll)
 
                     # Distribute resources based on the rolled number
-                    for hex_index, hex_number in enumerate(hexagon_numbers):
-                        if hex_number == roll:
-                            hex_color = hexagon_colors[hex_index]
+                    for num in range (0, len(hexagon_numbers)):
+                        print ("hex number: ", hexagon_numbers[num])
+                        a = hexagon_numbers[num]
+                        if int(a) == (roll):
+                            print('in if')
+                            hex_color = hexagon_colors[num]
                             resources = game.get_resource_type(hex_color)
                             for player in players:
                                 player.collect_resource(resources)
+                                print("Wood", player.wood)
+                                print("Wheat", player.wheat)
+                                print("Sheep", player.sheep)
+                                print("Brick", player.brick)
+                                print("Ore", player.ore)
                     if b.grid_nums[0] == roll:
                                 pass
 
@@ -440,7 +449,7 @@ def main():
             game.current_player.sheep) + "\nWheat: " + str(game.current_player.wheat) + "\nOre: " + str(
             game.current_player.ore) + "\nHold O to see Options"
         # left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
-        right_text = 'Resource Hex Codes\nGreen: Sheep\nYellow: Wheat\nGray: Ore\nBrown: Wood\nRed: Brick\nTan:Desert'
+        right_text = ''
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
 
