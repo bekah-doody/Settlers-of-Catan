@@ -431,6 +431,7 @@ def main():
 
                 if event.key == pygame.K_e:
                     game.change_player()
+                    player1.next_turn()
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_o:

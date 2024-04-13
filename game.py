@@ -257,8 +257,13 @@ class Vertex:
         self.y = y
 
     def buy_settlement(self, player: Player):
-        self.settlement = True
-        self.color = player.color
+        wood_cost = 1
+        brick_cost = 1
+        wheat_cost = 1
+        sheep_cost = 1
+        if player.place_settlement(player, wood_cost, brick_cost, wheat_cost, sheep_cost):
+            self.settlement = True
+            self.color = player.color
 
     def buy_city(self):
         self.settlement = False

@@ -57,6 +57,18 @@ class Player:
         elif resource_type == "ore":
             self.collect_ore(1)
 
+    def decrease_resource(self, resource_type: str):
+        if resource_type == "wood":
+            self.collect_wood(1)
+        elif resource_type == "brick":
+            self.collect_brick(1)
+        elif resource_type == "sheep":
+            self.collect_sheep(1)
+        elif resource_type == "wheat":
+            self.collect_wheat(1)
+        elif resource_type == "ore":
+            self.collect_ore(1)
+
     @property
     def color(self):
         """
@@ -146,6 +158,21 @@ class Player:
         Adds one settlement
         """
         self.__settlements += 1
+
+    def place_settlement(self, player, wood_cost:int , brick_cost:int , wheat_cost:int , sheep_cost:int):
+        if player.turn == 0:
+            return True
+        if int(self.wood) >= wood_cost and int(self.brick) >= brick_cost and int(self.wheat) >= wheat_cost and int(self.sheep) >= sheep_cost:
+            self.wood -= wood_cost
+            self.brick -= brick_cost
+            self.wheat -= wheat_cost
+            self.sheep -= sheep_cost
+            print(player.turn)
+            return True
+        else:
+            return False
+
+
 
     @property
     def cities(self) -> int:
