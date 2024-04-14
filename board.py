@@ -6,6 +6,7 @@ import time
 import player
 import resource_hexes
 import buildings
+import backgrounds
 
 pygame.init()
 
@@ -49,6 +50,7 @@ class board:
         self.NUMBERS = ['2', '3', '3', '4', '4', '5', '5', '6', '6', '8', '8', '9', '9', '10', '10', '11', '11', '12']
         self.grid_nums = []
         self.grid_colors = []
+        self.background_image = pygame.image.load("backgrounds/ocean.jpg")
         self.COLOR_QUANTITIES = {
             (255, 0, 0): 3,  # red -> bricks
             (0, 255, 0): 4,  # green -> sheep
@@ -104,7 +106,8 @@ class board:
             angle_rad = math.pi / 180 * angle_deg
             points.append((x + self.HEX_SIZE * math.cos(angle_rad),
                            y + self.HEX_SIZE * math.sin(angle_rad)))
-        pygame.draw.polygon(surface, (0, 0, 0), points, 5)  # Draw black border
+        #pygame.draw.polygon(surface, (230, 200, 170), points, 15)
+        pygame.draw.polygon(surface, (210, 180, 140), points, 10)# Draw black border
         pygame.draw.polygon(surface, color, points)
 
     def draw_text(self, surface, text, font, color, x, y, align="center"):
@@ -243,6 +246,8 @@ class board:
         """
 
         # Calculate starting position to center the grid
+        self.background_image = pygame.transform.scale(self.background_image, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        screen.blit(self.background_image, (0,0))
         start_x = (SCREEN_WIDTH - HEX_WIDTH * 5) / 2
         start_y = (self.SCREEN_HEIGHT - self.HEX_HEIGHT * 5) / 2
 
