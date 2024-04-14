@@ -1,5 +1,6 @@
 """This file holds the player class"""
-
+import pygame
+import buildings
 
 class Player:
     """
@@ -27,6 +28,11 @@ class Player:
         Constructor for the Player class
         """
         self.__color = color
+        self.image = None
+        if color == (255, 265, 0):
+            self.image = pygame.image.load("buildings/red_settlement.png")
+        if color == (0, 0, 255):
+            self.image = pygame.image.load("buildings/blue_settlement.png")
         self.__wood = 0
         self.__brick = 0
         self.__sheep = 0
@@ -44,6 +50,7 @@ class Player:
 
     def __str__(self):
         return self.name
+
 
     def collect_resource(self, resource_type: str):
         if resource_type == "wood":
@@ -159,20 +166,20 @@ class Player:
         """
         self.__settlements += 1
 
-    def place_settlement(self, player, wood_cost:int , brick_cost:int , wheat_cost:int , sheep_cost:int):
+    def place_settlement(self, player):
         if player.turn == 0:
             return True
-        if int(self.wood) >= wood_cost and int(self.brick) >= brick_cost and int(self.wheat) >= wheat_cost and int(self.sheep) >= sheep_cost:
-            self.wood -= wood_cost
-            self.brick -= brick_cost
-            self.wheat -= wheat_cost
-            self.sheep -= sheep_cost
+        if int(self.wood) >= 1 and int(self.brick) >= 1 and int(self.wheat) >= 1 and int(
+                self.sheep) >= 1:
+            print("in if")
+            self.wood -= 1
+            self.brick -= 1
+            self.wheat -= 1
+            self.sheep -= 1
             print(player.turn)
             return True
         else:
             return False
-
-
 
     @property
     def cities(self) -> int:
@@ -340,4 +347,4 @@ class Player:
         """
         Increments the turn attribute
         """
-        self.__turn += 1
+        self.turn += 1

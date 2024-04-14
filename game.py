@@ -261,7 +261,7 @@ class Vertex:
         brick_cost = 1
         wheat_cost = 1
         sheep_cost = 1
-        if player.place_settlement(player, wood_cost, brick_cost, wheat_cost, sheep_cost):
+        if player.place_settlement(player):
             self.settlement = True
             self.color = player.color
 

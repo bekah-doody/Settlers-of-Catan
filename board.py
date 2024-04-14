@@ -5,6 +5,7 @@ from game import *
 import time
 import player
 import resource_hexes
+import buildings
 
 pygame.init()
 
@@ -354,6 +355,7 @@ def main():
     # Creates two players
     player1 = Player("player1", ((255, 165, 0)))
     player2 = Player("player2", ((0, 0, 255)))
+    current_player = player1
 
     players = (player1, player2)
 
@@ -406,18 +408,18 @@ def main():
                         if int(a) == (roll):
                             hex_color = hexagon_colors[num]
                             resources = game.get_resource_type(hex_color)
-                            player1.collect_resource(resources)
-                            print("Wood", player1.wood)
-                            print("Wheat", player1.wheat)
-                            print("Sheep", player1.sheep)
-                            print("Brick", player1.brick)
-                            print("Ore", player1.ore)
-                            player2.collect_resource(resources)
-                            print("Wood", player2.wood)
-                            print("Wheat", player2.wheat)
-                            print("Sheep", player2.sheep)
-                            print("Brick", player2.brick)
-                            print("Ore", player2.ore)
+                            current_player.collect_resource(resources)
+                            # print("Wood", current_player.wood)
+                            # print("Wheat", current_player.wheat)
+                            # print("Sheep", current_player.sheep)
+                            # print("Brick", .brick)
+                            # print("Ore", player1.ore)
+                            # player2.collect_resource(resources)
+                            # print("Wood", player2.wood)
+                            # print("Wheat", player2.wheat)
+                            # print("Sheep", player2.sheep)
+                            # print("Brick", player2.brick)
+                            # print("Ore", player2.ore)
                             pygame.display.flip()
 
                 if event.key == pygame.K_i:
@@ -431,7 +433,11 @@ def main():
 
                 if event.key == pygame.K_e:
                     game.change_player()
-                    player1.next_turn()
+                    current_player.next_turn()
+                    if current_player == player1:
+                        current_player = player2
+                    else:
+                        current_player = player1
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_o:
@@ -447,11 +453,12 @@ def main():
 
         # Draw text to the right and left of the board
         player4 = game.current_player
-        left_text = "Current Player: " + game.current_player.name + "\nWood: " + str(
-            player1.wood) + "\nBricks: " + str(player1.brick) + "\nSheep: " + str(
-            player1.sheep) + "\nWheat: " + str(player1.wheat) + "\nOre: " + str(
-            player1.ore) + "\nHold O to see Options"
+        left_text = "Current Player: " + game.current_player.name  + "\nHold O to see Options"
         # left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
+        # + "\nWood: " + str(
+        #     player1.wood) + "\nBricks: " + str(player1.brick) + "\nSheep: " + str(
+        #     player1.sheep) + "\nWheat: " + str(player1.wheat) + "\nOre: " + str(
+        #     player1.ore)
         right_text = ''
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
@@ -459,9 +466,9 @@ def main():
         if show_options:
             b.display_options(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN)
         if show_inventory:
-            b.display_inventory(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN, player1.wood,
-                                player1.brick, player1.sheep, player1.wheat,
-                                player1.ore)
+            b.display_inventory(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN, current_player.wood,
+                                current_player.brick, current_player.sheep, current_player.wheat,
+                                current_player.ore)
 
         pygame.display.flip()
 
