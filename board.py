@@ -350,6 +350,30 @@ class Frame:
         # draw button on screen
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
+class Dice:
+
+    def __init__(self, x, y, scale =1):
+        self.topleft = (x,y)
+        self.num = -1
+        self.scale = scale
+        imagelocation = "dices/dice1.png"
+        image = pygame.image.load(imagelocation).convert_alpha()
+        width = image.get_width()
+        height = image.get_height()
+        self.image = pygame.transform.scale(image, (int(width * self.scale), int(height * self.scale)))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+    def draw(self, surface, num):
+        if not num == self.num:
+            imagelocation = "dices/dice"+str(num)+".png"
+            image = pygame.image.load(imagelocation).convert_alpha()
+            width = image.get_width()
+            height = image.get_height()
+            self.image = pygame.transform.scale(image, (int(width * self.scale), int(height * self.scale)))
+            self.rect = self.image.get_rect()
+            self.rect.topleft = self.topleft
+        surface.blit(self.image,  (self.rect.x, self.rect.y))
+
 
 # Main function
 def main():
@@ -383,6 +407,9 @@ def main():
         scale = .5
         dice_roll.images.append(Frame(50, 500, dice_frame, .1))
 
+    dice1 = Dice(69, 567, .3)
+    dice2 = Dice(218, 567, .3)
+
     # creates the vertices
     game.generate_vertices()
     game.set_order()
@@ -393,6 +420,9 @@ def main():
     running = True
     show_options = False
     show_inventory = False
+    rolling = True
+    lastroll1 = 1
+    lastroll2 = 1
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -403,7 +433,10 @@ def main():
                     show_options = True
                 if event.key == pygame.K_r:
                     dice_roll.run = True
+
                     rolla = game.roll_dice()
+                    lastroll1 = random.randint(1,6)
+                    lastroll2 = random.randint(1,6)
                     roll = rolla[0] + rolla[1]
                     print(roll)
 
@@ -450,10 +483,14 @@ def main():
                 if event.key == pygame.K_i:
                     show_inventory = False
 
+
+
+
         screen.fill(b.BACKGROUND_COLOR)
         b.draw_grid(b.SCREEN_WIDTH, b.HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers)
         game.draw_vertices(screen)
         dice_roll.run = dice_roll.run_through(screen)
+
         dice_roll.run_through(screen)
 
         # Draw text to the right and left of the board
@@ -474,6 +511,10 @@ def main():
             b.display_inventory(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN, current_player.wood,
                                 current_player.brick, current_player.sheep, current_player.wheat,
                                 current_player.ore)
+
+        if not dice_roll.run:
+            dice1.draw(screen, lastroll1)
+            dice2.draw(screen, lastroll2)
 
         pygame.display.flip()
 
