@@ -438,8 +438,8 @@ def main():
                     dice_roll.run = True
 
                     rolla = game.roll_dice()
-                    lastroll1 = random.randint(1,6)
-                    lastroll2 = random.randint(1,6)
+                    lastroll1 = rolla[0]
+                    lastroll2 = rolla[1]
                     roll = rolla[0] + rolla[1]
                     print(roll)
 
