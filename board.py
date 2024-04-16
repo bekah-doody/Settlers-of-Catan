@@ -106,8 +106,8 @@ class board:
             angle_rad = math.pi / 180 * angle_deg
             points.append((x + self.HEX_SIZE * math.cos(angle_rad),
                            y + self.HEX_SIZE * math.sin(angle_rad)))
-        #pygame.draw.polygon(surface, (230, 200, 170), points, 15)
-        pygame.draw.polygon(surface, (210, 180, 140), points, 10)# Draw black border
+        # pygame.draw.polygon(surface, (230, 200, 170), points, 15)
+        pygame.draw.polygon(surface, (210, 180, 140), points, 10)  # Draw tan border
         pygame.draw.polygon(surface, color, points)
 
     def draw_text(self, surface, text, font, color, x, y, align="center"):
@@ -246,8 +246,8 @@ class board:
         """
 
         # Calculate starting position to center the grid
-        self.background_image = pygame.transform.scale(self.background_image, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-        screen.blit(self.background_image, (0,0))
+        # self.background_image = pygame.transform.scale(self.background_image, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        # screen.blit(self.background_image, (0,0))
         start_x = (SCREEN_WIDTH - HEX_WIDTH * 5) / 2
         start_y = (self.SCREEN_HEIGHT - self.HEX_HEIGHT * 5) / 2
 
@@ -458,7 +458,7 @@ def main():
 
         # Draw text to the right and left of the board
         player4 = game.current_player
-        left_text = "Current Player: " + game.current_player.name  + "\nHold O to see Options"
+        left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
         # left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
         # + "\nWood: " + str(
         #     player1.wood) + "\nBricks: " + str(player1.brick) + "\nSheep: " + str(
