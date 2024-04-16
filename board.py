@@ -186,7 +186,9 @@ class board:
 
         commands = ['R to roll dice',
                     'E to end turn',
-                    'I to view inventory']
+                    'I to view inventory',
+                    'X to quit'
+                    ]
 
         for i, command in enumerate(commands):
             text = font.render(command, True, (0, 0, 0))
@@ -385,7 +387,7 @@ def main():
     """
 
     # Creates two players
-    player1 = Player("player1", ((255, 165, 0)))
+    player1 = Player("player1", ((255, 0, 0)))
     player2 = Player("player2", ((0, 0, 255)))
     current_player = player1
 
@@ -469,8 +471,8 @@ def main():
                 if event.key == pygame.K_s:
                     pass
 
-                if event.key == pygame.K_c:
-                    pass
+                if event.key == pygame.K_x:
+                    pygame.quit()
 
                 if event.key == pygame.K_e:
                     game.change_player()
@@ -486,11 +488,6 @@ def main():
                 if event.key == pygame.K_i:
                     show_inventory = False
 
-        if player1.settlements == 5:
-            pass
-        if player2.settlements == 5:
-            pass
-
         screen.fill(b.BACKGROUND_COLOR)
         b.draw_grid(b.SCREEN_WIDTH, b.HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers)
         game.draw_vertices(screen)
@@ -502,6 +499,10 @@ def main():
         player4 = game.current_player
         left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
         right_text = 'Victory Points: ' + str(int(current_player.settlements))
+        if current_player.settlements > 4:
+            win_image = pygame.image.load("backgrounds/" + current_player.name + "_win.png")
+            win_image = pygame.transform.scale(win_image, (b.SCREEN_WIDTH, b.SCREEN_HEIGHT))
+            screen.blit(win_image, (0, 0))
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
 
