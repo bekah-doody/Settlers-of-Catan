@@ -224,7 +224,6 @@ class Game:
         for num in range(len(self.vertices)):
             if self.vertices[num].button.draw(surface):
                 self.vertices[num].buy_settlement(self.current_player)
-                self.add_settlement(self.current_player)
             self.vertices[num].button.draw(surface)
             self.vertices[num].draw(surface)
 
