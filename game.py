@@ -4,6 +4,7 @@ from player import Player
 from vertex_button import VertexButton
 import pygame
 import random
+from roads import *
 
 
 class Game:
@@ -17,6 +18,7 @@ class Game:
         self.players = [player1, player2]
         self.vertices = []
         self.current_player = None
+        self.roads = []
 
     def get_adjacent_hexagons(self, vertex):
         """
@@ -227,6 +229,123 @@ class Game:
                 self.add_settlement(self.current_player)
             self.vertices[num].button.draw(surface)
             self.vertices[num].draw(surface)
+
+    def generate_roads(self):
+        roads_lst = []
+        # first row to second row
+        roads_lst.append(Road((480, 101), (421, 135)))
+        roads_lst.append(Road((480, 101), (544, 135)))
+        roads_lst.append(Road((601, 101), (544, 135)))
+        roads_lst.append(Road((601, 101), (662, 135)))
+        roads_lst.append(Road((726, 101), (662, 135)))
+        roads_lst.append(Road((726, 101), (787, 135)))
+
+
+        # second row to third row
+        roads_lst.append(Road((787, 135), (784, 205)))
+        roads_lst.append(Road((662, 135), (662, 205)))
+        roads_lst.append(Road((544, 135), (544, 205)))
+        roads_lst.append(Road((421, 135), (419, 205)))
+
+        # third to fourth row
+        roads_lst.append(Road((419, 205), (361, 241)))
+        roads_lst.append(Road((419, 205), (480, 241)))
+        roads_lst.append(Road((544, 205), (480, 241)))
+        roads_lst.append(Road((544, 205), (603, 241)))
+        roads_lst.append(Road((662, 205), (603, 241)))
+        roads_lst.append(Road((662, 205), (725, 241)))
+        roads_lst.append(Road((784, 205), (725, 241)))
+        roads_lst.append(Road((784, 205), (848, 241)))
+
+        # fourth to fifth row
+
+        roads_lst.append(Road((361, 241), (361, 312)))
+        roads_lst.append(Road((480, 241), (480, 312)))
+        roads_lst.append(Road((603, 241), (603, 312)))
+        roads_lst.append(Road((725, 241), (725, 312)))
+        roads_lst.append(Road((848, 241), (848, 312)))
+
+        # fifth to sixth row
+
+        roads_lst.append(Road((361, 312), (300, 346)))
+        roads_lst.append(Road((361, 312), (420, 346)))
+        roads_lst.append(Road((480, 312), (420, 346)))
+        roads_lst.append(Road((480, 312), (544, 346)))
+        roads_lst.append(Road((603, 312), (544, 346)))
+        roads_lst.append(Road((603, 312), (662, 346)))
+        roads_lst.append(Road((725, 312), (662, 346)))
+        roads_lst.append(Road((725, 312), (784, 346)))
+        roads_lst.append(Road((848, 312), (784, 346)))
+        roads_lst.append(Road((848, 312), (908, 346)))
+
+        # sixth row to seventh row
+
+        roads_lst.append(Road((300, 346), (300, 416)))
+        roads_lst.append(Road((420, 346), (420, 416)))
+        roads_lst.append(Road((544, 346), (544, 416)))
+        roads_lst.append(Road((662, 346), (662, 416)))
+        roads_lst.append(Road((784, 346), (784, 416)))
+        roads_lst.append(Road((908, 346), (908, 416)))
+
+        # seventh row to eighth row
+        roads_lst.append(Road((300, 416), (361, 452)))
+        roads_lst.append(Road((420, 416), (361, 452)))
+        roads_lst.append(Road((420, 416), (480, 452)))
+        roads_lst.append(Road((544, 416), (480, 452)))
+        roads_lst.append(Road((544, 416), (603, 452)))
+        roads_lst.append(Road((662, 416), (603, 452)))
+        roads_lst.append(Road((662, 416), (725, 452)))
+        roads_lst.append(Road((784, 416), (725, 452)))
+        roads_lst.append(Road((784, 416), (848, 452)))
+        roads_lst.append(Road((908, 416), (848, 452)))
+
+        # eighth to ninth row
+        roads_lst.append(Road((361, 452), (361, 521)))
+        roads_lst.append(Road((480, 452), (480, 521)))
+        roads_lst.append(Road((603, 452), (603, 521)))
+        roads_lst.append(Road((725, 452), (725, 521)))
+        roads_lst.append(Road((848, 452), (848, 521)))
+
+        # ninth row to tenth
+        roads_lst.append(Road((361, 521), (420, 556)))
+        roads_lst.append(Road((480, 521), (420, 556)))
+        roads_lst.append(Road((480, 521), (544, 556)))
+        roads_lst.append(Road((603, 521), (544, 556)))
+        roads_lst.append(Road((603, 521), (662, 556)))
+        roads_lst.append(Road((725, 521), (662, 556)))
+        roads_lst.append(Road((725, 521), (784, 556)))
+        roads_lst.append(Road((848, 521), (784, 556)))
+
+        # tenth row to eleventh row
+
+        roads_lst.append(Road((420, 556), (421, 627)))
+        roads_lst.append(Road((544, 556), (544, 627)))
+        roads_lst.append(Road((662, 556), (662, 627)))
+        roads_lst.append(Road((784, 556), (784, 627)))
+
+        # eleventh row to twelfth row
+
+        roads_lst.append(Road((421, 627), (482, 663)))
+        roads_lst.append(Road((544, 627), (482, 663)))
+        roads_lst.append(Road((544, 627), (603, 663)))
+        roads_lst.append(Road((662, 627), (603, 663)))
+        roads_lst.append(Road((662, 627), (725, 663)))
+        roads_lst.append(Road((784, 627), (725, 663)))
+
+        self.roads = roads_lst
+
+    def draw_roads(self, surface):
+        for num in range(len(self.roads)):
+            if self.roads[num].draw(surface):
+                self.roads[num].color = self.current_player.color
+            self.roads[num].draw(surface)
+
+
+
+    # def draw_roads(self):
+    #     for i in self.roads:
+
+
 
     def set_order(self):
         for num in range(len(self.players)):

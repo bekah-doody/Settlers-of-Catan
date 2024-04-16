@@ -415,6 +415,7 @@ def main():
 
     # creates the vertices
     game.generate_vertices()
+    game.generate_roads()
     game.set_order()
     b.start_screen(screen)
 
@@ -493,6 +494,7 @@ def main():
 
         screen.fill(b.BACKGROUND_COLOR)
         b.draw_grid(b.SCREEN_WIDTH, b.HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers)
+        game.draw_roads(screen)
         game.draw_vertices(screen)
         dice_roll.run = dice_roll.run_through(screen)
 
