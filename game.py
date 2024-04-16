@@ -13,8 +13,8 @@ class Game:
 
     """
 
-    def __init__(self):
-        self.players = [Player("player1", ((255, 0, 0))), Player("player2", ((0, 0, 255)))]
+    def __init__(self, player1, player2):
+        self.players = [player1, player2]
         self.vertices = []
         self.current_player = None
 
@@ -224,6 +224,7 @@ class Game:
         for num in range(len(self.vertices)):
             if self.vertices[num].button.draw(surface):
                 self.vertices[num].buy_settlement(self.current_player)
+                self.add_settlement(self.current_player)
             self.vertices[num].button.draw(surface)
             self.vertices[num].draw(surface)
 
@@ -244,6 +245,9 @@ class Game:
     # Function to roll two dice and return the results
     def roll_dice(self):
         return self.roll_die(), self.roll_die()
+
+    def add_settlement(self, player):
+        pass
 
 
 class Vertex:

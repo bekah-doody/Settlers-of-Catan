@@ -375,7 +375,7 @@ def main():
     pygame.display.set_caption('Catan Board')
 
     # initializes game
-    game = Game()
+    game = Game(player1, player2)
     game.current_player = game.players[0]
 
     # dice roll animation
