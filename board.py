@@ -50,7 +50,7 @@ class board:
         self.NUMBERS = ['2', '3', '3', '4', '4', '5', '5', '6', '6', '8', '8', '9', '9', '10', '10', '11', '11', '12']
         self.grid_nums = []
         self.grid_colors = []
-        self.background_image = pygame.image.load("backgrounds/ocean.jpg")
+        self.background_image = pygame.image.load("backgrounds/start_screen.png")
         self.COLOR_QUANTITIES = {
             (255, 0, 0): 3,  # red -> bricks
             (0, 255, 0): 4,  # green -> sheep
@@ -151,18 +151,21 @@ class board:
                     if event.key == pygame.K_SPACE:
                         running = False
 
-            screen.fill(self.BACKGROUND_COLOR)
-            font = pygame.font.SysFont(self.FONT_STYLE, 150)
-            self.draw_text(screen, "Settlers of Catan", font, (255, 255, 255), self.SCREEN_WIDTH // 2,
-                           self.SCREEN_HEIGHT // 2 - 70,
-                           align='center')
-            font = pygame.font.SysFont(self.FONT_STYLE, 70)
-            self.draw_text(screen, "\n\nPress Space to Start", font, (255, 255, 255), self.SCREEN_WIDTH // 2,
-                           self.SCREEN_HEIGHT // 2 - 100, align='center')
-            font = pygame.font.SysFont(self.FONT_STYLE, self.FONT_SIZE)
-            self.draw_text(screen, "\n\n\n\nBekah Doody\nDrew Baine\nJason Miranda", font, (15, 15, 100),
-                           self.SCREEN_WIDTH // 2,
-                           self.SCREEN_HEIGHT // 2, align='center')
+            self.background_image = pygame.transform.scale(self.background_image, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+            screen.blit(self.background_image, (0,0))
+
+            # screen.fill(self.BACKGROUND_COLOR)
+            # font = pygame.font.SysFont(self.FONT_STYLE, 150)
+            # self.draw_text(screen, "Settlers of Catan", font, (255, 255, 255), self.SCREEN_WIDTH // 2,
+            #                self.SCREEN_HEIGHT // 2 - 70,
+            #                align='center')
+            # font = pygame.font.SysFont(self.FONT_STYLE, 70)
+            # self.draw_text(screen, "\n\nPress Space to Start", font, (255, 255, 255), self.SCREEN_WIDTH // 2,
+            #                self.SCREEN_HEIGHT // 2 - 100, align='center')
+            # font = pygame.font.SysFont(self.FONT_STYLE, self.FONT_SIZE)
+            # self.draw_text(screen, "\n\n\n\nBekah Doody\nDrew Baine\nJason Miranda", font, (15, 15, 100),
+            #                self.SCREEN_WIDTH // 2,
+            #                self.SCREEN_HEIGHT // 2, align='center')
             pygame.display.flip()
 
     def display_options(self, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN):
@@ -449,7 +452,10 @@ def main():
                     show_options = False
                 if event.key == pygame.K_i:
                     show_inventory = False
-
+        if player1.settlements == 5:
+            pass
+        if player2.settlements == 5:
+            pass
         screen.fill(b.BACKGROUND_COLOR)
         b.draw_grid(b.SCREEN_WIDTH, b.HEX_WIDTH, screen, font, hexagon_colors, hexagon_numbers)
         game.draw_vertices(screen)
@@ -459,12 +465,7 @@ def main():
         # Draw text to the right and left of the board
         player4 = game.current_player
         left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
-        # left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
-        # + "\nWood: " + str(
-        #     player1.wood) + "\nBricks: " + str(player1.brick) + "\nSheep: " + str(
-        #     player1.sheep) + "\nWheat: " + str(player1.wheat) + "\nOre: " + str(
-        #     player1.ore)
-        right_text = ''
+        right_text = 'Victory Points: ' + str(current_player.settlements)
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
 

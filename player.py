@@ -168,6 +168,7 @@ class Player:
 
     def place_settlement(self, player):
         if player.turn == 0:
+            self.settlements += 1
             return True
         if int(self.wood) >= 1 and int(self.brick) >= 1 and int(self.wheat) >= 1 and int(
                 self.sheep) >= 1:
