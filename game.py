@@ -265,6 +265,7 @@ class Vertex:
         wheat_cost = 1
         sheep_cost = 1
         if player.place_settlement(player):
+            print("in game")
             self.settlement = True
             self.color = player.color
 

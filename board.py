@@ -452,18 +452,9 @@ def main():
                             hex_color = hexagon_colors[num]
                             resources = game.get_resource_type(hex_color)
                             current_player.collect_resource(resources)
-                            # print("Wood", current_player.wood)
-                            # print("Wheat", current_player.wheat)
-                            # print("Sheep", current_player.sheep)
-                            # print("Brick", .brick)
-                            # print("Ore", player1.ore)
-                            # player2.collect_resource(resources)
-                            # print("Wood", player2.wood)
-                            # print("Wheat", player2.wheat)
-                            # print("Sheep", player2.sheep)
-                            # print("Brick", player2.brick)
-                            # print("Ore", player2.ore)
                             pygame.display.flip()
+                        if roll == 7:
+                            pass
 
                 if event.key == pygame.K_i:
                     if event.key == pygame.K_i:
@@ -499,12 +490,14 @@ def main():
         player4 = game.current_player
         left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
         right_text = 'Victory Points: ' + str(int(current_player.settlements))
+        bottom_right_text = 'Recipes\n' + 'Settlement:\n' + '   1 wood\n' + '   1 sheep\n' + '   1 brick\n' + '   1 wheat\n'
         if current_player.settlements > 4:
             win_image = pygame.image.load("backgrounds/" + current_player.name + "_win.png")
             win_image = pygame.transform.scale(win_image, (b.SCREEN_WIDTH, b.SCREEN_HEIGHT))
             screen.blit(win_image, (0, 0))
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
+        b.draw_text(screen, bottom_right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 200, b.SCREEN_HEIGHT - 300, align='center')
 
         if show_options:
             b.display_options(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN)
