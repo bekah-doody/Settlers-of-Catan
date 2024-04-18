@@ -224,8 +224,9 @@ class Game:
 
     def draw_vertices(self, surface):
         for num in range(len(self.vertices)):
-            if self.vertices[num].button.draw(surface):
+            if self.vertices[num].button.draw(surface) and not self.vertices[num].clicked:
                 self.vertices[num].buy_settlement(self.current_player)
+
             self.vertices[num].button.draw(surface)
             self.vertices[num].draw(surface)
 
@@ -369,12 +370,9 @@ class Vertex:
         self.color = (0, 0, 0)
         self.x = x
         self.y = y
+        self.clicked = False
 
     def buy_settlement(self, player: Player):
-        wood_cost = 1
-        brick_cost = 1
-        wheat_cost = 1
-        sheep_cost = 1
         if player.place_settlement(player):
             self.settlement = True
             self.color = player.color

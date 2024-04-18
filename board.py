@@ -187,7 +187,7 @@ class board:
         commands = ['R to roll dice',
                     'E to end turn',
                     'I to view inventory',
-                    'X to quit'
+                    'esc to quit'
                     ]
 
         for i, command in enumerate(commands):
@@ -513,7 +513,6 @@ def main():
 
         if not pygame.mouse.get_pos() == pos:
             pos=pygame.mouse.get_pos()
-            print(pos)
         if not dice_roll.run:
             dice1.draw(screen, lastroll1)
             dice2.draw(screen, lastroll2)
