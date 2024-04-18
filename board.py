@@ -429,6 +429,7 @@ def main():
     rolling = True
     lastroll1 = 1
     lastroll2 = 1
+    pos = pygame.mouse.get_pos()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -515,6 +516,9 @@ def main():
                                 current_player.brick, current_player.sheep, current_player.wheat,
                                 current_player.ore)
 
+        if not pygame.mouse.get_pos() == pos:
+            pos=pygame.mouse.get_pos()
+            print(pos)
         if not dice_roll.run:
             dice1.draw(screen, lastroll1)
             dice2.draw(screen, lastroll2)

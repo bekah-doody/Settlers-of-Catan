@@ -20,7 +20,11 @@ class Road:
         max_y = max(y1, y2) + self.width / 2
 
 
-        if min_x <= pos[0] <= max_x and min_y <= pos[1] <= max_y and self.claimed == False and pygame.mouse.get_pressed()[0] == 1:
+        if min_x+10 <= pos[0] <= max_x-10 and min_y+10 <= pos[1] <= max_y-10 and self.claimed == False and pygame.mouse.get_pressed()[0] == 1:
+            self.claimed = True
+            self.color = (255,0,0)
+            return True
+        if(x1 == x2 and min_x <= pos[0] <= max_x and min_y <= pos[1] <= max_y and self.claimed == False and pygame.mouse.get_pressed()[0] == 1):
             self.claimed = True
             self.color = (255,0,0)
             return True
@@ -40,6 +44,6 @@ class Road:
         min_y = min(y1, y2) - self.width / 2
         max_y = max(y1, y2) + self.width / 2
 
-        if min_x <= mouse_x <= max_x and min_y <= mouse_y <= max_y:
+        if min_x+10 <= mouse_x <= max_x-10 and min_y+10 <= mouse_y <= max_y-10:
             self.claimed = True
             self.color = (255, 0, 0)  # Change color to indicate it's claimed

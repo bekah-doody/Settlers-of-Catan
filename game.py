@@ -232,59 +232,59 @@ class Game:
     def generate_roads(self):
         roads_lst = []
         # first row to second row
-        roads_lst.append(Road((480, 101), (421, 135)))
-        roads_lst.append(Road((480, 101), (544, 135)))
-        roads_lst.append(Road((601, 101), (544, 135)))
-        roads_lst.append(Road((601, 101), (662, 135)))
-        roads_lst.append(Road((726, 101), (662, 135)))
-        roads_lst.append(Road((726, 101), (787, 135)))
+        roads_lst.append(Road((471, 106), (431, 130)))
+        roads_lst.append(Road((488, 104), (533, 130)))
+        roads_lst.append(Road((590, 104), (555, 130)))
+        roads_lst.append(Road((612, 104), (654, 130)))
+        roads_lst.append(Road((726, 105), (670, 130)))
+        roads_lst.append(Road((736, 105), (776, 130)))
 
 
         # second row to third row
-        roads_lst.append(Road((787, 135), (784, 205)))
-        roads_lst.append(Road((662, 135), (662, 205)))
-        roads_lst.append(Road((544, 135), (544, 205)))
-        roads_lst.append(Road((421, 135), (419, 205)))
+        roads_lst.append(Road((787, 145), (787, 195)))
+        roads_lst.append(Road((662, 145), (662, 195)))
+        roads_lst.append(Road((544, 145), (544, 195)))
+        roads_lst.append(Road((419, 145), (419, 195)))
 
         # third to fourth row
-        roads_lst.append(Road((419, 205), (361, 241)))
-        roads_lst.append(Road((419, 205), (480, 241)))
-        roads_lst.append(Road((544, 205), (480, 241)))
-        roads_lst.append(Road((544, 205), (603, 241)))
-        roads_lst.append(Road((662, 205), (603, 241)))
-        roads_lst.append(Road((662, 205), (725, 241)))
-        roads_lst.append(Road((784, 205), (725, 241)))
-        roads_lst.append(Road((784, 205), (848, 241)))
+        roads_lst.append(Road((419, 210), (371, 233)))
+        roads_lst.append(Road((419, 210), (470, 233)))
+        roads_lst.append(Road((544, 210), (490, 233)))
+        roads_lst.append(Road((544, 210), (593, 233)))
+        roads_lst.append(Road((662, 210), (613, 233)))
+        roads_lst.append(Road((662, 210), (715, 233)))
+        roads_lst.append(Road((784, 210), (735, 233)))
+        roads_lst.append(Road((784, 210), (838, 233)))
 
         # fourth to fifth row
 
-        roads_lst.append(Road((361, 241), (361, 312)))
-        roads_lst.append(Road((480, 241), (480, 312)))
-        roads_lst.append(Road((603, 241), (603, 312)))
-        roads_lst.append(Road((725, 241), (725, 312)))
-        roads_lst.append(Road((848, 241), (848, 312)))
+        roads_lst.append(Road((361, 251), (361, 302)))
+        roads_lst.append(Road((480, 251), (480, 302)))
+        roads_lst.append(Road((603, 251), (603, 302)))
+        roads_lst.append(Road((725, 251), (725, 302)))
+        roads_lst.append(Road((848, 251), (848, 302)))
 
         # fifth to sixth row
 
-        roads_lst.append(Road((361, 312), (300, 346)))
-        roads_lst.append(Road((361, 312), (420, 346)))
-        roads_lst.append(Road((480, 312), (420, 346)))
-        roads_lst.append(Road((480, 312), (544, 346)))
-        roads_lst.append(Road((603, 312), (544, 346)))
-        roads_lst.append(Road((603, 312), (662, 346)))
-        roads_lst.append(Road((725, 312), (662, 346)))
-        roads_lst.append(Road((725, 312), (784, 346)))
-        roads_lst.append(Road((848, 312), (784, 346)))
-        roads_lst.append(Road((848, 312), (908, 346)))
+        roads_lst.append(Road((361, 316), (310, 340)))
+        roads_lst.append(Road((361, 316), (410, 340)))
+        roads_lst.append(Road((480, 316), (430, 340)))
+        roads_lst.append(Road((480, 316), (534, 340)))
+        roads_lst.append(Road((603, 316), (554, 340)))
+        roads_lst.append(Road((603, 316), (652, 340)))
+        roads_lst.append(Road((725, 316), (672, 340)))
+        roads_lst.append(Road((725, 316), (774, 340)))
+        roads_lst.append(Road((848, 316), (794, 340)))
+        roads_lst.append(Road((848, 316), (898, 340)))
 
         # sixth row to seventh row
 
-        roads_lst.append(Road((300, 346), (300, 416)))
-        roads_lst.append(Road((420, 346), (420, 416)))
-        roads_lst.append(Road((544, 346), (544, 416)))
-        roads_lst.append(Road((662, 346), (662, 416)))
-        roads_lst.append(Road((784, 346), (784, 416)))
-        roads_lst.append(Road((908, 346), (908, 416)))
+        roads_lst.append(Road((300, 356), (300, 406)))
+        roads_lst.append(Road((420, 356), (420, 406)))
+        roads_lst.append(Road((544, 356), (544, 406)))
+        roads_lst.append(Road((662, 356), (662, 406)))
+        roads_lst.append(Road((784, 356), (784, 406)))
+        roads_lst.append(Road((908, 356), (908, 406)))
 
         # seventh row to eighth row
         roads_lst.append(Road((300, 416), (361, 452)))
@@ -299,11 +299,11 @@ class Game:
         roads_lst.append(Road((908, 416), (848, 452)))
 
         # eighth to ninth row
-        roads_lst.append(Road((361, 452), (361, 521)))
-        roads_lst.append(Road((480, 452), (480, 521)))
-        roads_lst.append(Road((603, 452), (603, 521)))
-        roads_lst.append(Road((725, 452), (725, 521)))
-        roads_lst.append(Road((848, 452), (848, 521)))
+        roads_lst.append(Road((361, 442), (361, 511)))
+        roads_lst.append(Road((480, 442), (480, 511)))
+        roads_lst.append(Road((603, 442), (603, 511)))
+        roads_lst.append(Road((725, 442), (725, 511)))
+        roads_lst.append(Road((848, 442), (848, 511)))
 
         # ninth row to tenth
         roads_lst.append(Road((361, 521), (420, 556)))
@@ -317,10 +317,10 @@ class Game:
 
         # tenth row to eleventh row
 
-        roads_lst.append(Road((420, 556), (421, 627)))
-        roads_lst.append(Road((544, 556), (544, 627)))
-        roads_lst.append(Road((662, 556), (662, 627)))
-        roads_lst.append(Road((784, 556), (784, 627)))
+        roads_lst.append(Road((420, 546), (421, 617)))
+        roads_lst.append(Road((544, 546), (544, 617)))
+        roads_lst.append(Road((662, 546), (662, 617)))
+        roads_lst.append(Road((784, 546), (784, 617)))
 
         # eleventh row to twelfth row
 
