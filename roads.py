@@ -5,8 +5,8 @@ class Road:
     def __init__(self, start_pos, end_pos):
         self.start_pos = start_pos
         self.end_pos = end_pos
-        self.color = (150, 150, 150)
-        self.width = 5
+        self.color = (210, 180, 140)
+        self.width = 8
         self.claimed = False
 
     def draw(self, screen):

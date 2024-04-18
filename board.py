@@ -436,6 +436,9 @@ def main():
                 running = False
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_o:
                     show_options = True
                 if event.key == pygame.K_r:
