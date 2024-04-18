@@ -2,6 +2,7 @@
 import pygame
 import buildings
 
+
 class Player:
     """
     This class stores data associated with the Player object
@@ -50,7 +51,6 @@ class Player:
 
     def __str__(self):
         return self.name
-
 
     def collect_resource(self, resource_type: str):
         if resource_type == "wood":
@@ -160,22 +160,33 @@ class Player:
         """
         self.__settlements = num
 
-
     def place_settlement(self, player):
         if player.turn == 0 and self.__settlements < 2:
-            self.settlements += .5
+            self.settlements += 1
             return True
-        elif int(self.wood) >= 1 and int(self.brick) >= 1 and int(self.wheat) >= 1 and int(
+        if int(self.wood) >= 1 and int(self.brick) >= 1 and int(self.wheat) >= 1 and int(
                 self.sheep) >= 1:
             self.__wood -= 1
             self.__brick -= 1
             self.__wheat -= 1
             self.__sheep -= 1
             self.settlements += 1
-            print("in if")
             return True
         else:
             return False
+
+    def place_road(self, player):
+        if player.turn == 0 and self.__settlements < 2:
+            self.roads += 1
+            return True
+        if int(self.wood) >= 1 and int(self.brick) >= 1:
+            self.__wood -= 1
+            self.__brick -= 1
+            self.roads += 1
+            return True
+        else:
+            return False
+
 
     @property
     def cities(self) -> int:

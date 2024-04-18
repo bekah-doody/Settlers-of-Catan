@@ -187,7 +187,7 @@ class board:
         commands = ['R to roll dice',
                     'E to end turn',
                     'I to view inventory',
-                    'X to quit'
+                    'esc to quit'
                     ]
 
         for i, command in enumerate(commands):
@@ -438,6 +438,9 @@ def main():
                 running = False
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_o:
                     show_options = True
                 if event.key == pygame.K_r and not rolled:
@@ -448,6 +451,7 @@ def main():
                     lastroll2 = rolla[1]
                     roll = rolla[0] + rolla[1]
                     print(roll)
+
                     if not rolled:
                         # Distribute resources based on the rolled number
                         for num in range(0, len(hexagon_numbers)):
@@ -471,7 +475,6 @@ def main():
                     rolled = True
 
                 if event.key == pygame.K_i:
-                    if event.key == pygame.K_i:
                         show_inventory = True
                 if event.key == pygame.K_s:
                     pass
@@ -505,7 +508,8 @@ def main():
         # Draw text to the right and left of the board
         player4 = game.current_player
         left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
-        right_text = 'Victory Points: ' + str(int(current_player.settlements))
+        right_text = 'Victory Points: ' + str(int(current_player.settlements)) + '\n\nSettlement Recipe\n' +'1 wood\n' + '1 sheep\n' + '1 brick\n' + '1 wheat\n'
+        #bottom_right_text = 6
         if current_player.settlements > 4:
             win_image = pygame.image.load("backgrounds/" + current_player.name + "_win.png")
             win_image = pygame.transform.scale(win_image, (b.SCREEN_WIDTH, b.SCREEN_HEIGHT))
@@ -513,6 +517,7 @@ def main():
             won=True
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
+        #b.draw_text(screen, bottom_right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 125, 50, align='center')
 
         if show_options:
             b.display_options(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN)
@@ -522,7 +527,9 @@ def main():
                                 current_player.ore)
 
 
+
         if not dice_roll.run and not won:
+
             dice1.draw(screen, lastroll1)
             dice2.draw(screen, lastroll2)
 

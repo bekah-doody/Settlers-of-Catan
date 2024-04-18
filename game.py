@@ -224,8 +224,9 @@ class Game:
 
     def draw_vertices(self, surface):
         for num in range(len(self.vertices)):
-            if self.vertices[num].button.draw(surface):
+            if self.vertices[num].button.draw(surface) and not self.vertices[num].clicked:
                 self.vertices[num].buy_settlement(self.current_player)
+
             self.vertices[num].button.draw(surface)
             self.vertices[num].draw(surface)
 
@@ -238,7 +239,6 @@ class Game:
         roads_lst.append(Road((612, 104), (654, 130)))
         roads_lst.append(Road((726, 105), (670, 130)))
         roads_lst.append(Road((736, 105), (776, 130)))
-
 
         # second row to third row
         roads_lst.append(Road((787, 145), (787, 195)))
@@ -339,13 +339,6 @@ class Game:
                 self.roads[num].color = self.current_player.color
             self.roads[num].draw(surface)
 
-
-
-    # def draw_roads(self):
-    #     for i in self.roads:
-
-
-
     def set_order(self):
         for num in range(len(self.players)):
             if not num == len(self.players) - 1:
@@ -377,12 +370,9 @@ class Vertex:
         self.color = (0, 0, 0)
         self.x = x
         self.y = y
+        self.clicked = False
 
     def buy_settlement(self, player: Player):
-        wood_cost = 1
-        brick_cost = 1
-        wheat_cost = 1
-        sheep_cost = 1
         if player.place_settlement(player):
             self.settlement = True
             self.color = player.color
