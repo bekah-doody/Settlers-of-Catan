@@ -239,7 +239,6 @@ class Game:
         roads_lst.append(Road((726, 101), (662, 135)))
         roads_lst.append(Road((726, 101), (787, 135)))
 
-
         # second row to third row
         roads_lst.append(Road((787, 135), (784, 205)))
         roads_lst.append(Road((662, 135), (662, 205)))
@@ -339,13 +338,6 @@ class Game:
                 self.roads[num].color = self.current_player.color
             self.roads[num].draw(surface)
 
-
-
-    # def draw_roads(self):
-    #     for i in self.roads:
-
-
-
     def set_order(self):
         for num in range(len(self.players)):
             if not num == len(self.players) - 1:
@@ -384,7 +376,6 @@ class Vertex:
         wheat_cost = 1
         sheep_cost = 1
         if player.place_settlement(player):
-            print("in game")
             self.settlement = True
             self.color = player.color
 

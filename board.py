@@ -458,7 +458,6 @@ def main():
                             pass
 
                 if event.key == pygame.K_i:
-                    if event.key == pygame.K_i:
                         show_inventory = True
                 if event.key == pygame.K_s:
                     pass
@@ -491,15 +490,15 @@ def main():
         # Draw text to the right and left of the board
         player4 = game.current_player
         left_text = "Current Player: " + game.current_player.name + "\nHold O to see Options"
-        right_text = 'Victory Points: ' + str(int(current_player.settlements))
-        bottom_right_text = 'Recipes\n' + 'Settlement:\n' + '   1 wood\n' + '   1 sheep\n' + '   1 brick\n' + '   1 wheat\n'
+        right_text = 'Victory Points: ' + str(int(current_player.settlements)) + '\n\nSettlement Recipe\n' +'1 wood\n' + '1 sheep\n' + '1 brick\n' + '1 wheat\n'
+        #bottom_right_text = 6
         if current_player.settlements > 4:
             win_image = pygame.image.load("backgrounds/" + current_player.name + "_win.png")
             win_image = pygame.transform.scale(win_image, (b.SCREEN_WIDTH, b.SCREEN_HEIGHT))
             screen.blit(win_image, (0, 0))
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
-        b.draw_text(screen, bottom_right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 200, b.SCREEN_HEIGHT - 300, align='center')
+        #b.draw_text(screen, bottom_right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 125, 50, align='center')
 
         if show_options:
             b.display_options(b.SCREEN_WIDTH, b.SCREEN_HEIGHT, b.SCREEN)
