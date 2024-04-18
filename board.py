@@ -429,7 +429,9 @@ def main():
     rolling = True
     lastroll1 = 1
     lastroll2 = 1
+    rolled = False
     pos = pygame.mouse.get_pos()
+    won = False
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -438,7 +440,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_o:
                     show_options = True
-                if event.key == pygame.K_r:
+                if event.key == pygame.K_r and not rolled:
                     dice_roll.run = True
 
                     rolla = game.roll_dice()
@@ -446,26 +448,27 @@ def main():
                     lastroll2 = rolla[1]
                     roll = rolla[0] + rolla[1]
                     print(roll)
-
-                    # Distribute resources based on the rolled number
-                    for num in range(0, len(hexagon_numbers)):
-                        a = hexagon_numbers[num]
-                        if int(a) == (roll):
-                            hex_color = hexagon_colors[num]
-                            resources = game.get_resource_type(hex_color)
-                            current_player.collect_resource(resources)
-                            # print("Wood", current_player.wood)
-                            # print("Wheat", current_player.wheat)
-                            # print("Sheep", current_player.sheep)
-                            # print("Brick", .brick)
-                            # print("Ore", player1.ore)
-                            # player2.collect_resource(resources)
-                            # print("Wood", player2.wood)
-                            # print("Wheat", player2.wheat)
-                            # print("Sheep", player2.sheep)
-                            # print("Brick", player2.brick)
-                            # print("Ore", player2.ore)
-                            pygame.display.flip()
+                    if not rolled:
+                        # Distribute resources based on the rolled number
+                        for num in range(0, len(hexagon_numbers)):
+                            a = hexagon_numbers[num]
+                            if int(a) == (roll):
+                                hex_color = hexagon_colors[num]
+                                resources = game.get_resource_type(hex_color)
+                                current_player.collect_resource(resources)
+                                # print("Wood", current_player.wood)
+                                # print("Wheat", current_player.wheat)
+                                # print("Sheep", current_player.sheep)
+                                # print("Brick", .brick)
+                                # print("Ore", player1.ore)
+                                # player2.collect_resource(resources)
+                                # print("Wood", player2.wood)
+                                # print("Wheat", player2.wheat)
+                                # print("Sheep", player2.sheep)
+                                # print("Brick", player2.brick)
+                                # print("Ore", player2.ore)
+                                pygame.display.flip()
+                    rolled = True
 
                 if event.key == pygame.K_i:
                     if event.key == pygame.K_i:
@@ -479,6 +482,7 @@ def main():
                 if event.key == pygame.K_e:
                     game.change_player()
                     current_player.next_turn()
+                    rolled=False
                     if current_player == player1:
                         current_player = player2
                     else:
@@ -506,6 +510,7 @@ def main():
             win_image = pygame.image.load("backgrounds/" + current_player.name + "_win.png")
             win_image = pygame.transform.scale(win_image, (b.SCREEN_WIDTH, b.SCREEN_HEIGHT))
             screen.blit(win_image, (0, 0))
+            won=True
         b.draw_text(screen, right_text, font, b.FONT_COLOR, b.SCREEN_WIDTH - 10, 25, align='right')
         b.draw_text(screen, left_text, font, b.FONT_COLOR, 10, 25, align='left')
 
@@ -516,10 +521,8 @@ def main():
                                 current_player.brick, current_player.sheep, current_player.wheat,
                                 current_player.ore)
 
-        if not pygame.mouse.get_pos() == pos:
-            pos=pygame.mouse.get_pos()
-            print(pos)
-        if not dice_roll.run:
+
+        if not dice_roll.run and not won:
             dice1.draw(screen, lastroll1)
             dice2.draw(screen, lastroll2)
 
